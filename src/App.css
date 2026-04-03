@@ -1,0 +1,476 @@
+/* ============================================================
+   Assessment – Abstract Aptitude Test
+   Styles matching the Saville Assessment UI
+   ============================================================ */
+
+/* ---------- Reset & Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f0f0f0;
+  color: #333;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- App Layout ---------- */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app__header {
+  background: #fff;
+  border-bottom: 3px solid #4ecdc4;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.app__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app__logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+.app__section-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: #666;
+}
+
+.app__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Test Player ---------- */
+.test-player {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 24px;
+}
+
+.test-player__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.test-player__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.test-player__card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 24px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.test-player__sequence-wrapper {
+  background: #e6f5ec;
+  border-radius: 12px;
+  padding: 24px 16px;
+  margin-bottom: 32px;
+  overflow-x: auto;
+}
+
+.test-player__sequence {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.test-player__options {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+}
+
+.test-player__nav {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 32px;
+  padding-bottom: 24px;
+}
+
+.test-player__empty {
+  text-align: center;
+  padding: 60px;
+  color: #999;
+  font-size: 18px;
+}
+
+/* ---------- Shape Cards ---------- */
+.shape-card {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shape-card svg {
+  display: block;
+}
+
+.shape-card--normal {
+  width: 90px;
+  height: 90px;
+}
+
+.shape-card--normal svg {
+  width: 90px;
+  height: 90px;
+}
+
+.shape-card--option {
+  width: 100px;
+  height: 100px;
+  border: 3px solid #b2dfdb;
+  border-radius: 12px;
+  padding: 6px;
+  background: #fff;
+  transition: all 0.15s ease;
+}
+
+.shape-card--option svg {
+  width: 100%;
+  height: 100%;
+}
+
+.shape-card--clickable {
+  cursor: pointer;
+}
+
+.shape-card--clickable:hover {
+  border-color: #4ecdc4;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(78, 205, 196, 0.2);
+}
+
+.shape-card--selected {
+  border-color: #4ecdc4 !important;
+  background: #f0fffe !important;
+  box-shadow: 0 0 0 2px #4ecdc4, 0 4px 12px rgba(78, 205, 196, 0.25);
+  transform: translateY(-2px);
+}
+
+.shape-card--missing {
+  opacity: 0.85;
+}
+
+/* ---------- Progress Bar ---------- */
+.progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.progress-bar__line {
+  display: block;
+  width: 32px;
+  height: 2px;
+  background: #ccc;
+  margin: 0 2px;
+}
+
+.progress-bar__step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 600;
+  background: #e0e0e0;
+  color: #666;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.progress-bar__step--current {
+  background: #4ecdc4;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(78, 205, 196, 0.4);
+}
+
+.progress-bar__step--correct {
+  background: #4caf50;
+  color: #fff;
+}
+
+.progress-bar__step--incorrect {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.progress-bar__step--skipped {
+  background: #999;
+  color: #fff;
+}
+
+/* ---------- Timer ---------- */
+.timer {
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 18px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #333;
+  min-width: 70px;
+  text-align: center;
+}
+
+.timer--low {
+  color: #e74c3c;
+  border-color: #e74c3c;
+  animation: timer-pulse 1s ease-in-out infinite;
+}
+
+@keyframes timer-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  padding: 14px 48px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 2px solid transparent;
+  min-width: 160px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background: #4ecdc4;
+  color: #fff;
+  border-color: #4ecdc4;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: #3ab5ad;
+  border-color: #3ab5ad;
+}
+
+.btn--outline {
+  background: #fff;
+  color: #333;
+  border-color: #ccc;
+}
+
+.btn--outline:hover:not(:disabled) {
+  border-color: #999;
+  background: #fafafa;
+}
+
+/* ---------- Feedback Screen ---------- */
+.feedback {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.feedback__card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 720px;
+  width: 100%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.feedback__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.feedback__icon {
+  flex-shrink: 0;
+}
+
+.feedback__label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.feedback__title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.feedback__divider {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 20px 0;
+}
+
+.feedback__summary {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 24px;
+}
+
+.feedback__results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.feedback__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: #fafafa;
+  border-left: 4px solid transparent;
+}
+
+.feedback__item--correct {
+  border-left-color: #4caf50;
+}
+
+.feedback__item--incorrect {
+  border-left-color: #e74c3c;
+}
+
+.feedback__item--skipped {
+  border-left-color: #999;
+}
+
+.feedback__status-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.feedback__item-body strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 15px;
+}
+
+.feedback__explanation {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.feedback__actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .test-player__sequence {
+    justify-content: flex-start;
+  }
+
+  .shape-card--normal {
+    width: 72px;
+    height: 72px;
+  }
+
+  .shape-card--normal svg {
+    width: 72px;
+    height: 72px;
+  }
+
+  .shape-card--option {
+    width: 80px;
+    height: 80px;
+  }
+
+  .btn {
+    padding: 12px 32px;
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 600px) {
+  .shape-card--normal {
+    width: 56px;
+    height: 56px;
+  }
+
+  .shape-card--normal svg {
+    width: 56px;
+    height: 56px;
+  }
+
+  .shape-card--option {
+    width: 64px;
+    height: 64px;
+  }
+
+  .test-player__sequence-wrapper {
+    padding: 16px 8px;
+  }
+
+  .test-player__sequence {
+    gap: 6px;
+  }
+
+  .test-player__options {
+    gap: 10px;
+  }
+
+  .feedback__card {
+    padding: 24px;
+  }
+}
