@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import ShapeCard from './ShapeCard';
 import ProgressBar from './ProgressBar';
-import Timer from './Timer';
 import FeedbackScreen from './FeedbackScreen';
 import { AdaptiveEngine } from '../engine/adaptive';
 import allQuestions from '../data/questions';
-
-const TEST_DURATION = 480; // 8 minutes for 15 questions
 
 export default function TestPlayer({ onComplete }) {
   const engineRef = useRef(null);
@@ -23,35 +20,25 @@ export default function TestPlayer({ onComplete }) {
   const [currentQuestion, setCurrentQuestion] = useState(() => engine.getNextQuestion());
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [timeRemaining, setTimeRemaining] = useState(TEST_DURATION);
+  const [elapsed, setElapsed] = useState(0);
   const [testComplete, setTestComplete] = useState(false);
   const [stepStatuses, setStepStatuses] = useState({});
 
   // Per-question feedback state
   const [showFeedback, setShowFeedback] = useState(false);
-  const [feedbackResult, setFeedbackResult] = useState(null); // { isCorrect, correctIndex, feedback }
+  const [feedbackResult, setFeedbackResult] = useState(null);
 
-  // Pause timer during feedback
+  // Pause elapsed timer during feedback
   const timerPaused = showFeedback;
 
-  // Timer
+  // Elapsed timer (counts up)
   useEffect(() => {
     if (testComplete || timerPaused) return;
     const interval = setInterval(() => {
-      setTimeRemaining((prev) => {
-        if (prev <= 1) {
-          setTestComplete(true);
-          return 0;
-        }
-        return prev - 1;
-      });
+      setElapsed((prev) => prev + 1);
     }, 1000);
     return () => clearInterval(interval);
   }, [testComplete, timerPaused]);
-
-  const handleTimerExpired = useCallback(() => {
-    setTestComplete(true);
-  }, []);
 
   const handleSelectOption = useCallback(
     (index) => {
@@ -122,14 +109,12 @@ export default function TestPlayer({ onComplete }) {
     setCurrentQuestion(engineRef.current.getNextQuestion());
     setQuestionIndex(0);
     setSelectedOption(null);
-    setTimeRemaining(TEST_DURATION);
+    setElapsed(0);
     setTestComplete(false);
     setStepStatuses({});
     setShowFeedback(false);
     setFeedbackResult(null);
   }, [totalQuestions]);
-
-  const timeTaken = useMemo(() => TEST_DURATION - timeRemaining, [timeRemaining]);
   const isLastQuestion = questionIndex === totalQuestions - 1;
 
   // ---------- RENDER ----------
@@ -139,7 +124,7 @@ export default function TestPlayer({ onComplete }) {
       <FeedbackScreen
         results={engine.getResults()}
         questions={allQuestions}
-        timeTaken={timeTaken}
+        timeTaken={elapsed}
         onRedo={handleRedo}
         onNext={onComplete}
       />
@@ -169,7 +154,6 @@ export default function TestPlayer({ onComplete }) {
               Lvl {engine.currentDifficulty}
             </span>
           </div>
-          <Timer seconds={timeRemaining} onExpired={handleTimerExpired} />
         </div>
       </div>
 

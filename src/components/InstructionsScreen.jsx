@@ -28,9 +28,8 @@ export default function InstructionsScreen({ onPrevious, onStart }) {
             correctly completes the series.
           </p>
           <p>
-            This assessment contains <strong>15 questions</strong> and must be
-            completed within <strong>8 minutes</strong>. Difficulty adapts based
-            on your performance.
+            This assessment contains <strong>15 questions</strong>. There is no
+            time limit. Difficulty adapts based on your performance.
           </p>
           <p>
             You will receive feedback after each response. Once submitted, answers
