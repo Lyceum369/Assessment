@@ -7,9 +7,11 @@ export default function WelcomeScreen({ onNext }) {
         <div className="info-card__header">
           <div className="info-card__icon">
             <svg viewBox="0 0 48 48" width="48" height="48">
-              <polygon points="24,6 30,18 18,18" fill="#555" stroke="#555" strokeWidth="1" />
-              <circle cx="16" cy="30" r="7" fill="none" stroke="#555" strokeWidth="2" />
-              <rect x="28" y="23" width="14" height="14" fill="none" stroke="#555" strokeWidth="2" />
+              <circle cx="24" cy="24" r="6" fill="#c9a84c" />
+              <circle cx="24" cy="24" r="10" fill="none" stroke="#c9a84c" strokeWidth="1" opacity="0.7" />
+              <circle cx="24" cy="24" r="14" fill="none" stroke="#c9a84c" strokeWidth="0.8" opacity="0.5" />
+              <circle cx="24" cy="24" r="18" fill="none" stroke="#c9a84c" strokeWidth="0.6" opacity="0.35" />
+              <circle cx="24" cy="24" r="22" fill="none" stroke="#c9a84c" strokeWidth="0.5" opacity="0.2" />
             </svg>
           </div>
           <h2 className="info-card__title">Abstract Reasoning Aptitude</h2>

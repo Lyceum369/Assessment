@@ -216,12 +216,12 @@ export default function ShapeCard({
   if (!config && !isMissing) return null;
 
   const isDark = config?.background === 'dark';
-  const cardBg = isDark ? '#1a1a1a' : 'white';
+  const cardBg = isDark ? '#0a0e1a' : '#1a2035';
   const colors = {
-    fg: isDark ? '#ffffff' : '#1a1a1a',
-    stroke: isDark ? '#ffffff' : '#1a1a1a',
-    dot: isDark ? '#ffffff' : '#1a1a1a',
-    border: isDark ? '#444' : '#bbb',
+    fg: isDark ? '#e8e0d0' : '#e8e0d0',
+    stroke: isDark ? '#e8e0d0' : '#e8e0d0',
+    dot: isDark ? '#e8e0d0' : '#e8e0d0',
+    border: isDark ? '#252d42' : '#2a3450',
   };
 
   const cardClass = [
@@ -251,10 +251,11 @@ export default function ShapeCard({
             <rect
               x="4" y="4" width="92" height="92"
               fill="none"
-              stroke="#999"
+              stroke="#c9a84c"
               strokeWidth="2"
               strokeDasharray="6 4"
               rx="3"
+              opacity="0.5"
             />
             <text
               x="50" y="58"
@@ -262,7 +263,8 @@ export default function ShapeCard({
               fontSize="40"
               fontFamily="Inter, sans-serif"
               fontWeight="600"
-              fill="#999"
+              fill="#c9a84c"
+              opacity="0.6"
             >
               ?
             </text>

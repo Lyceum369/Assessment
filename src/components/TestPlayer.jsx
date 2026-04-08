@@ -8,7 +8,7 @@ import allQuestions from '../data/questions';
 
 const TEST_DURATION = 480; // 8 minutes for 15 questions
 
-export default function TestPlayer() {
+export default function TestPlayer({ onComplete }) {
   const engineRef = useRef(null);
   const totalQuestions = allQuestions.length;
 
@@ -141,7 +141,7 @@ export default function TestPlayer() {
         questions={allQuestions}
         timeTaken={timeTaken}
         onRedo={handleRedo}
-        onNext={() => alert('More questions coming soon!')}
+        onNext={onComplete}
       />
     );
   }
@@ -153,17 +153,24 @@ export default function TestPlayer() {
   return (
     <div className="test-player">
       <div className="test-player__header">
-        <ProgressBar
-          total={totalQuestions}
-          current={questionIndex}
-          statuses={stepStatuses}
-        />
-        <Timer seconds={timeRemaining} onExpired={handleTimerExpired} />
-      </div>
-
-      {/* Difficulty indicator */}
-      <div className="test-player__difficulty">
-        Difficulty: {engine.currentDifficulty} / 5
+        <div className="test-player__progress-wrapper">
+          <ProgressBar
+            total={totalQuestions}
+            current={questionIndex}
+            statuses={stepStatuses}
+          />
+        </div>
+        <div className="test-player__header-right">
+          <div className="test-player__meta">
+            <span className="test-player__question-counter">
+              {questionIndex + 1} / {totalQuestions}
+            </span>
+            <span className="test-player__difficulty">
+              Lvl {engine.currentDifficulty}
+            </span>
+          </div>
+          <Timer seconds={timeRemaining} onExpired={handleTimerExpired} />
+        </div>
       </div>
 
       <div className="test-player__content">
@@ -240,7 +247,7 @@ export default function TestPlayer() {
                 <strong>
                   {feedbackResult.isCorrect ? 'Correct!' : 'Incorrect'}
                 </strong>
-                {!feedbackResult.isCorrect && (
+                {feedbackResult.feedback && (
                   <p>{feedbackResult.feedback}</p>
                 )}
                 {!feedbackResult.isCorrect && (
@@ -258,11 +265,6 @@ export default function TestPlayer() {
       <div className="test-player__nav">
         {!showFeedback ? (
           <>
-            {questionIndex > 0 && (
-              <button className="btn btn--outline" onClick={() => {}}>
-                Previous
-              </button>
-            )}
             {isLastQuestion ? (
               <button
                 className="btn btn--primary"
