@@ -7,16 +7,15 @@ import { AdaptiveEngine } from '../engine/adaptive';
 import allQuestions from '../data/questions';
 
 const TEST_DURATION = 120; // 2 minutes
+const TOTAL_QUESTIONS = 4; // 4 questions per test session
 
 export default function TestPlayer() {
   const engineRef = useRef(null);
-  const startTimeRef = useRef(Date.now());
 
-  // Initialize engine once
   if (!engineRef.current) {
     engineRef.current = new AdaptiveEngine(allQuestions, {
-      startDifficulty: 2,
-      totalQuestions: allQuestions.length,
+      startDifficulty: 1,
+      totalQuestions: TOTAL_QUESTIONS,
     });
   }
   const engine = engineRef.current;
@@ -27,9 +26,8 @@ export default function TestPlayer() {
   const [timeRemaining, setTimeRemaining] = useState(TEST_DURATION);
   const [testComplete, setTestComplete] = useState(false);
   const [stepStatuses, setStepStatuses] = useState({});
-  const [isPractice] = useState(true); // Practice mode for now
 
-  // Timer countdown
+  // Timer
   useEffect(() => {
     if (testComplete) return;
     const interval = setInterval(() => {
@@ -52,23 +50,20 @@ export default function TestPlayer() {
     setSelectedOption(index);
   }, []);
 
-  const handleNext = useCallback(() => {
+  const submitAndAdvance = useCallback(() => {
     if (selectedOption === null || !currentQuestion) return;
 
-    // Record the answer
     const isCorrect = engine.recordAnswer(
       currentQuestion.id,
       selectedOption,
       currentQuestion.correctIndex
     );
 
-    // Update step status
     setStepStatuses((prev) => ({
       ...prev,
       [questionIndex]: isCorrect ? 'correct' : 'incorrect',
     }));
 
-    // Get next question
     const next = engine.getNextQuestion();
     if (!next) {
       setTestComplete(true);
@@ -80,16 +75,26 @@ export default function TestPlayer() {
     setSelectedOption(null);
   }, [selectedOption, currentQuestion, questionIndex, engine]);
 
-  const handlePrevious = useCallback(() => {
-    // In adaptive mode, no going back (simplified for prototype)
-  }, []);
+  const handleFinish = useCallback(() => {
+    if (selectedOption !== null && currentQuestion) {
+      engine.recordAnswer(
+        currentQuestion.id,
+        selectedOption,
+        currentQuestion.correctIndex
+      );
+      setStepStatuses((prev) => ({
+        ...prev,
+        [questionIndex]: selectedOption === currentQuestion.correctIndex ? 'correct' : 'incorrect',
+      }));
+    }
+    setTestComplete(true);
+  }, [selectedOption, currentQuestion, questionIndex, engine]);
 
   const handleRedo = useCallback(() => {
     engineRef.current = new AdaptiveEngine(allQuestions, {
-      startDifficulty: 2,
-      totalQuestions: allQuestions.length,
+      startDifficulty: 1,
+      totalQuestions: TOTAL_QUESTIONS,
     });
-    startTimeRef.current = Date.now();
     setCurrentQuestion(engineRef.current.getNextQuestion());
     setQuestionIndex(0);
     setSelectedOption(null);
@@ -98,9 +103,8 @@ export default function TestPlayer() {
     setStepStatuses({});
   }, []);
 
-  const timeTaken = useMemo(() => {
-    return TEST_DURATION - timeRemaining;
-  }, [timeRemaining]);
+  const timeTaken = useMemo(() => TEST_DURATION - timeRemaining, [timeRemaining]);
+  const isLastQuestion = questionIndex === TOTAL_QUESTIONS - 1;
 
   // ---------- RENDER ----------
 
@@ -122,28 +126,22 @@ export default function TestPlayer() {
 
   return (
     <div className="test-player">
-      {/* Header bar */}
       <div className="test-player__header">
         <ProgressBar
-          total={allQuestions.length}
+          total={TOTAL_QUESTIONS}
           current={questionIndex}
           statuses={stepStatuses}
         />
-        <Timer
-          seconds={timeRemaining}
-          onExpired={handleTimerExpired}
-        />
+        <Timer seconds={timeRemaining} onExpired={handleTimerExpired} />
       </div>
 
-      {/* Main content */}
       <div className="test-player__content">
         <div className="test-player__card">
-          {/* Sequence row */}
           <div className="test-player__sequence-wrapper">
             <div className="test-player__sequence">
               {currentQuestion.sequence.map((card, i) => (
                 <ShapeCard
-                  key={i}
+                  key={`${currentQuestion.id}-seq-${i}`}
                   config={card.missing ? null : card}
                   isMissing={!!card.missing}
                   size="normal"
@@ -152,11 +150,10 @@ export default function TestPlayer() {
             </div>
           </div>
 
-          {/* Answer options */}
           <div className="test-player__options">
             {currentQuestion.options.map((opt, i) => (
               <ShapeCard
-                key={i}
+                key={`${currentQuestion.id}-opt-${i}`}
                 config={opt}
                 isSelected={selectedOption === i}
                 onClick={() => handleSelectOption(i)}
@@ -167,20 +164,29 @@ export default function TestPlayer() {
         </div>
       </div>
 
-      {/* Navigation */}
       <div className="test-player__nav">
         {questionIndex > 0 && (
-          <button className="btn btn--outline" onClick={handlePrevious}>
+          <button className="btn btn--outline" onClick={() => {}}>
             Previous
           </button>
         )}
-        <button
-          className="btn btn--primary"
-          onClick={handleNext}
-          disabled={selectedOption === null}
-        >
-          Next
-        </button>
+        {isLastQuestion ? (
+          <button
+            className="btn btn--primary"
+            onClick={handleFinish}
+            disabled={selectedOption === null}
+          >
+            Finish
+          </button>
+        ) : (
+          <button
+            className="btn btn--primary"
+            onClick={submitAndAdvance}
+            disabled={selectedOption === null}
+          >
+            Next
+          </button>
+        )}
       </div>
     </div>
   );

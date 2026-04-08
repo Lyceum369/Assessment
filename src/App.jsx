@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import WelcomeScreen from './components/WelcomeScreen';
+import InstructionsScreen from './components/InstructionsScreen';
 import TestPlayer from './components/TestPlayer';
 
+const SCREENS = { welcome: 0, instructions: 1, test: 2 };
+
 export default function App() {
+  const [screen, setScreen] = useState(SCREENS.welcome);
+
   return (
     <div className="app">
       <header className="app__header">
@@ -12,11 +18,31 @@ export default function App() {
           </svg>
           <span className="app__logo-text">Assessment</span>
         </div>
-        <span className="app__section-label">Abstract</span>
+        <span className="app__section-label">
+          Abstract Reasoning Aptitude
+          <span className="app__section-dot"> &middot; </span>
+          {screen === SCREENS.welcome ? 'General' : 'Abstract'}
+        </span>
       </header>
+
       <main className="app__main">
-        <TestPlayer />
+        {screen === SCREENS.welcome && (
+          <WelcomeScreen onNext={() => setScreen(SCREENS.instructions)} />
+        )}
+        {screen === SCREENS.instructions && (
+          <InstructionsScreen
+            onPrevious={() => setScreen(SCREENS.welcome)}
+            onStart={() => setScreen(SCREENS.test)}
+          />
+        )}
+        {screen === SCREENS.test && <TestPlayer />}
       </main>
+
+      {screen !== SCREENS.test && (
+        <footer className="app__footer">
+          &copy; 2026 Assessment Platform. All rights reserved.
+        </footer>
+      )}
     </div>
   );
 }

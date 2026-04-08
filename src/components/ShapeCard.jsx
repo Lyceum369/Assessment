@@ -1,144 +1,210 @@
 import React from 'react';
 
-function generateStarPoints(cx, cy, outerR, innerR, points) {
-  const coords = [];
-  for (let i = 0; i < points * 2; i++) {
-    const angle = (i * Math.PI) / points - Math.PI / 2;
+/* ------------------------------------------------------------------ */
+/*  Utility helpers                                                    */
+/* ------------------------------------------------------------------ */
+
+const toRad = (deg) => (deg * Math.PI) / 180;
+
+function starPoints(cx, cy, outerR, innerR, n) {
+  const pts = [];
+  for (let i = 0; i < n * 2; i++) {
+    const angle = (i * Math.PI) / n - Math.PI / 2;
     const r = i % 2 === 0 ? outerR : innerR;
-    coords.push(`${cx + r * Math.cos(angle)},${cy + r * Math.sin(angle)}`);
+    pts.push(`${cx + r * Math.cos(angle)},${cy + r * Math.sin(angle)}`);
   }
-  return coords.join(' ');
+  return pts.join(' ');
 }
 
-function renderShape(shape, fill, isOnDarkBg) {
-  const fillColor = fill === 'filled' ? '#1a1a1a' : 'none';
-  const strokeColor = isOnDarkBg ? '#1a1a1a' : '#1a1a1a';
-  const shapeStroke = fill === 'outline' ? strokeColor : 'none';
+/* ------------------------------------------------------------------ */
+/*  Shape renderers                                                    */
+/* ------------------------------------------------------------------ */
+
+function renderShape(config, colors) {
+  const { shape, fill, rotation } = config;
+  const { fg, stroke } = colors;
+  const fillColor = fill === 'filled' ? fg : 'none';
+  const strokeColor = fill === 'outline' ? stroke : 'none';
   const sw = 2.5;
+  const rot = rotation || 0;
+  const tf = rot ? `rotate(${rot}, 50, 50)` : undefined;
 
   switch (shape) {
     case 'circle':
-      return (
-        <circle
-          cx="50" cy="50" r="26"
-          fill={fillColor}
-          stroke={shapeStroke}
-          strokeWidth={sw}
-        />
-      );
+      return <circle cx="50" cy="50" r="26" fill={fillColor} stroke={strokeColor} strokeWidth={sw} />;
+
     case 'hexagon': {
       const r = 26;
       const pts = [];
       for (let i = 0; i < 6; i++) {
-        const angle = (Math.PI / 3) * i - Math.PI / 2;
-        pts.push(`${50 + r * Math.cos(angle)},${50 + r * Math.sin(angle)}`);
+        const a = toRad(60 * i - 90);
+        pts.push(`${50 + r * Math.cos(a)},${50 + r * Math.sin(a)}`);
       }
-      return (
-        <polygon
-          points={pts.join(' ')}
-          fill={fillColor}
-          stroke={shapeStroke}
-          strokeWidth={sw}
-        />
-      );
+      return <polygon points={pts.join(' ')} fill={fillColor} stroke={strokeColor} strokeWidth={sw} />;
     }
+
     case 'triangle':
       return (
         <polygon
           points="50,22 78,74 22,74"
           fill={fillColor}
-          stroke={shapeStroke}
+          stroke={strokeColor}
           strokeWidth={sw}
+          transform={tf}
         />
       );
+
     case 'square':
       return (
         <rect
           x="24" y="24" width="52" height="52"
           fill={fillColor}
-          stroke={shapeStroke}
+          stroke={strokeColor}
           strokeWidth={sw}
+          transform={tf}
         />
       );
+
     case 'star':
       return (
         <polygon
-          points={generateStarPoints(50, 50, 28, 12, 5)}
+          points={starPoints(50, 50, 28, 12, 5)}
           fill={fillColor}
-          stroke={shapeStroke}
+          stroke={strokeColor}
           strokeWidth={sw}
         />
       );
+
     case 'cross':
       return (
         <polygon
           points="38,18 62,18 62,38 82,38 82,62 62,62 62,82 38,82 38,62 18,62 18,38 38,38"
           fill={fillColor}
-          stroke={shapeStroke}
+          stroke={strokeColor}
           strokeWidth={sw}
         />
       );
+
     case 'arrow':
       return (
         <polygon
-          points="32,22 76,50 32,78"
+          points="32,25 76,50 32,75"
           fill={fillColor}
-          stroke={shapeStroke}
+          stroke={strokeColor}
           strokeWidth={sw}
+          transform={tf}
         />
       );
+
     case 'x-mark': {
-      const color = fill === 'filled' ? '#1a1a1a' : '#1a1a1a';
+      const c = fill === 'filled' ? fg : stroke;
       return (
-        <g stroke={color} strokeWidth="6" strokeLinecap="round">
+        <g stroke={c} strokeWidth="7" strokeLinecap="round" transform={tf}>
           <line x1="28" y1="28" x2="72" y2="72" />
           <line x1="72" y1="28" x2="28" y2="72" />
         </g>
       );
     }
+
+    case 'pacman': {
+      const r = 26;
+      const half = 35;
+      const x1 = 50 + r * Math.cos(toRad(half));
+      const y1 = 50 + r * Math.sin(toRad(half));
+      const x2 = 50 + r * Math.cos(toRad(-half));
+      const y2 = 50 + r * Math.sin(toRad(-half));
+      const d = `M 50 50 L ${x1} ${y1} A ${r} ${r} 0 1 1 ${x2} ${y2} Z`;
+      return (
+        <path
+          d={d}
+          fill={fillColor}
+          stroke={fill === 'outline' ? strokeColor : 'none'}
+          strokeWidth={sw}
+          transform={tf}
+        />
+      );
+    }
+
     default:
       return null;
   }
 }
 
-function renderDarkCorners(variant) {
-  if (variant === 'dark-corners') {
+/* ------------------------------------------------------------------ */
+/*  Background decorations                                             */
+/* ------------------------------------------------------------------ */
+
+function renderBackground(config, colors) {
+  const bg = config.background;
+  if (!bg) return null;
+  const { fg } = colors;
+
+  if (bg === 'dark-corners') {
     return (
-      <g>
-        <polygon points="2,2 30,2 2,30" fill="#1a1a1a" />
-        <polygon points="70,2 98,2 98,30" fill="#1a1a1a" />
-        <polygon points="98,70 98,98 70,98" fill="#1a1a1a" />
-        <polygon points="2,70 2,98 30,98" fill="#1a1a1a" />
+      <g fill={fg}>
+        <polygon points="2,2 30,2 2,30" />
+        <polygon points="70,2 98,2 98,30" />
+        <polygon points="98,70 98,98 70,98" />
+        <polygon points="2,70 2,98 30,98" />
       </g>
     );
   }
-  if (variant === 'dark-corner-tl') {
-    return <polygon points="2,2 40,2 2,40" fill="#1a1a1a" />;
+
+  const cornerMap = {
+    'dark-corner-tl': '2,2 35,2 2,35',
+    'dark-corner-tr': '65,2 98,2 98,35',
+    'dark-corner-br': '98,65 98,98 65,98',
+    'dark-corner-bl': '2,65 2,98 35,98',
+  };
+  if (cornerMap[bg]) {
+    return <polygon points={cornerMap[bg]} fill={fg} />;
   }
-  if (variant === 'dark-corner-br') {
-    return <polygon points="98,60 98,98 60,98" fill="#1a1a1a" />;
+
+  if (bg === 'corner-lines') {
+    return (
+      <g stroke={fg} strokeWidth="1.2" opacity="0.7">
+        {/* TL */}
+        <line x1="2" y1="18" x2="18" y2="2" />
+        <line x1="2" y1="12" x2="12" y2="2" />
+        <line x1="2" y1="6" x2="6" y2="2" />
+        <line x1="2" y1="24" x2="24" y2="2" />
+        {/* TR */}
+        <line x1="82" y1="2" x2="98" y2="18" />
+        <line x1="88" y1="2" x2="98" y2="12" />
+        <line x1="94" y1="2" x2="98" y2="6" />
+        <line x1="76" y1="2" x2="98" y2="24" />
+        {/* BL */}
+        <line x1="2" y1="82" x2="18" y2="98" />
+        <line x1="2" y1="88" x2="12" y2="98" />
+        <line x1="2" y1="94" x2="6" y2="98" />
+        <line x1="2" y1="76" x2="24" y2="98" />
+        {/* BR */}
+        <line x1="82" y1="98" x2="98" y2="82" />
+        <line x1="88" y1="98" x2="98" y2="88" />
+        <line x1="94" y1="98" x2="98" y2="94" />
+        <line x1="76" y1="98" x2="98" y2="76" />
+      </g>
+    );
   }
+
   return null;
 }
 
-function renderDots(dots) {
+/* ------------------------------------------------------------------ */
+/*  Corner dots                                                        */
+/* ------------------------------------------------------------------ */
+
+function renderDots(dots, dotColor) {
   if (!dots || dots.length === 0) return null;
-  const positions = {
-    tl: [12, 12],
-    tr: [88, 12],
-    br: [88, 88],
-    bl: [12, 88],
-  };
+  const pos = { tl: [12, 12], tr: [88, 12], br: [88, 88], bl: [12, 88] };
   return dots.map((d) => (
-    <circle
-      key={d}
-      cx={positions[d][0]}
-      cy={positions[d][1]}
-      r="4.5"
-      fill="#1a1a1a"
-    />
+    <circle key={d} cx={pos[d][0]} cy={pos[d][1]} r="4.5" fill={dotColor} />
   ));
 }
+
+/* ------------------------------------------------------------------ */
+/*  Main component                                                     */
+/* ------------------------------------------------------------------ */
 
 export default function ShapeCard({
   config,
@@ -148,6 +214,15 @@ export default function ShapeCard({
   size = 'normal',
 }) {
   if (!config && !isMissing) return null;
+
+  const isDark = config?.background === 'dark';
+  const cardBg = isDark ? '#1a1a1a' : 'white';
+  const colors = {
+    fg: isDark ? '#ffffff' : '#1a1a1a',
+    stroke: isDark ? '#ffffff' : '#1a1a1a',
+    dot: isDark ? '#ffffff' : '#1a1a1a',
+    border: isDark ? '#444' : '#bbb',
+  };
 
   const cardClass = [
     'shape-card',
@@ -159,16 +234,14 @@ export default function ShapeCard({
     .filter(Boolean)
     .join(' ');
 
-  const isOnDarkBg = config?.background === 'dark-corners';
-
   return (
     <div className={cardClass} onClick={onClick}>
       <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        {/* Card background */}
+        {/* Card rect */}
         <rect
           x="2" y="2" width="96" height="96"
-          fill="white"
-          stroke="#bbb"
+          fill={cardBg}
+          stroke={colors.border}
           strokeWidth="1.5"
           rx="4"
         />
@@ -196,14 +269,9 @@ export default function ShapeCard({
           </>
         ) : (
           <>
-            {/* Dark corner backgrounds */}
-            {config.background && renderDarkCorners(config.background)}
-
-            {/* Corner dots */}
-            {renderDots(config.dots)}
-
-            {/* Central shape */}
-            {renderShape(config.shape, config.fill, isOnDarkBg)}
+            {renderBackground(config, colors)}
+            {renderDots(config.dots, colors.dot)}
+            {renderShape(config, colors)}
           </>
         )}
       </svg>
