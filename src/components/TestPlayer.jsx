@@ -6,16 +6,16 @@ import FeedbackScreen from './FeedbackScreen';
 import { AdaptiveEngine } from '../engine/adaptive';
 import allQuestions from '../data/questions';
 
-const TEST_DURATION = 120; // 2 minutes
-const TOTAL_QUESTIONS = allQuestions.length;
+const TEST_DURATION = 480; // 8 minutes for 15 questions
 
 export default function TestPlayer() {
   const engineRef = useRef(null);
+  const totalQuestions = allQuestions.length;
 
   if (!engineRef.current) {
     engineRef.current = new AdaptiveEngine(allQuestions, {
       startDifficulty: 1,
-      totalQuestions: TOTAL_QUESTIONS,
+      totalQuestions,
     });
   }
   const engine = engineRef.current;
@@ -27,9 +27,16 @@ export default function TestPlayer() {
   const [testComplete, setTestComplete] = useState(false);
   const [stepStatuses, setStepStatuses] = useState({});
 
+  // Per-question feedback state
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [feedbackResult, setFeedbackResult] = useState(null); // { isCorrect, correctIndex, feedback }
+
+  // Pause timer during feedback
+  const timerPaused = showFeedback;
+
   // Timer
   useEffect(() => {
-    if (testComplete) return;
+    if (testComplete || timerPaused) return;
     const interval = setInterval(() => {
       setTimeRemaining((prev) => {
         if (prev <= 1) {
@@ -40,18 +47,23 @@ export default function TestPlayer() {
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, [testComplete]);
+  }, [testComplete, timerPaused]);
 
   const handleTimerExpired = useCallback(() => {
     setTestComplete(true);
   }, []);
 
-  const handleSelectOption = useCallback((index) => {
-    setSelectedOption(index);
-  }, []);
+  const handleSelectOption = useCallback(
+    (index) => {
+      if (showFeedback) return; // lock selection during feedback
+      setSelectedOption(index);
+    },
+    [showFeedback]
+  );
 
-  const submitAndAdvance = useCallback(() => {
-    if (selectedOption === null || !currentQuestion) return;
+  // Submit answer → show inline feedback
+  const handleSubmit = useCallback(() => {
+    if (selectedOption === null || !currentQuestion || showFeedback) return;
 
     const isCorrect = engine.recordAnswer(
       currentQuestion.id,
@@ -64,19 +76,30 @@ export default function TestPlayer() {
       [questionIndex]: isCorrect ? 'correct' : 'incorrect',
     }));
 
+    setFeedbackResult({
+      isCorrect,
+      correctIndex: currentQuestion.correctIndex,
+      feedback: currentQuestion.feedback,
+    });
+    setShowFeedback(true);
+  }, [selectedOption, currentQuestion, questionIndex, engine, showFeedback]);
+
+  // Advance to next question after reading feedback
+  const handleContinue = useCallback(() => {
     const next = engine.getNextQuestion();
     if (!next) {
       setTestComplete(true);
       return;
     }
-
     setCurrentQuestion(next);
     setQuestionIndex((prev) => prev + 1);
     setSelectedOption(null);
-  }, [selectedOption, currentQuestion, questionIndex, engine]);
+    setShowFeedback(false);
+    setFeedbackResult(null);
+  }, [engine]);
 
   const handleFinish = useCallback(() => {
-    if (selectedOption !== null && currentQuestion) {
+    if (selectedOption !== null && currentQuestion && !showFeedback) {
       engine.recordAnswer(
         currentQuestion.id,
         selectedOption,
@@ -84,16 +107,17 @@ export default function TestPlayer() {
       );
       setStepStatuses((prev) => ({
         ...prev,
-        [questionIndex]: selectedOption === currentQuestion.correctIndex ? 'correct' : 'incorrect',
+        [questionIndex]:
+          selectedOption === currentQuestion.correctIndex ? 'correct' : 'incorrect',
       }));
     }
     setTestComplete(true);
-  }, [selectedOption, currentQuestion, questionIndex, engine]);
+  }, [selectedOption, currentQuestion, questionIndex, engine, showFeedback]);
 
   const handleRedo = useCallback(() => {
     engineRef.current = new AdaptiveEngine(allQuestions, {
       startDifficulty: 1,
-      totalQuestions: TOTAL_QUESTIONS,
+      totalQuestions,
     });
     setCurrentQuestion(engineRef.current.getNextQuestion());
     setQuestionIndex(0);
@@ -101,10 +125,12 @@ export default function TestPlayer() {
     setTimeRemaining(TEST_DURATION);
     setTestComplete(false);
     setStepStatuses({});
-  }, []);
+    setShowFeedback(false);
+    setFeedbackResult(null);
+  }, [totalQuestions]);
 
   const timeTaken = useMemo(() => TEST_DURATION - timeRemaining, [timeRemaining]);
-  const isLastQuestion = questionIndex === TOTAL_QUESTIONS - 1;
+  const isLastQuestion = questionIndex === totalQuestions - 1;
 
   // ---------- RENDER ----------
 
@@ -128,15 +154,21 @@ export default function TestPlayer() {
     <div className="test-player">
       <div className="test-player__header">
         <ProgressBar
-          total={TOTAL_QUESTIONS}
+          total={totalQuestions}
           current={questionIndex}
           statuses={stepStatuses}
         />
         <Timer seconds={timeRemaining} onExpired={handleTimerExpired} />
       </div>
 
+      {/* Difficulty indicator */}
+      <div className="test-player__difficulty">
+        Difficulty: {engine.currentDifficulty} / 5
+      </div>
+
       <div className="test-player__content">
         <div className="test-player__card">
+          {/* Sequence row */}
           <div className="test-player__sequence-wrapper">
             <div className="test-player__sequence">
               {currentQuestion.sequence.map((card, i) => (
@@ -150,41 +182,111 @@ export default function TestPlayer() {
             </div>
           </div>
 
+          {/* Answer options */}
           <div className="test-player__options">
-            {currentQuestion.options.map((opt, i) => (
-              <ShapeCard
-                key={`${currentQuestion.id}-opt-${i}`}
-                config={opt}
-                isSelected={selectedOption === i}
-                onClick={() => handleSelectOption(i)}
-                size="option"
-              />
-            ))}
+            {currentQuestion.options.map((opt, i) => {
+              let optionClass = '';
+              if (showFeedback) {
+                if (i === feedbackResult.correctIndex) {
+                  optionClass = 'shape-card--correct';
+                } else if (i === selectedOption && !feedbackResult.isCorrect) {
+                  optionClass = 'shape-card--wrong';
+                }
+              }
+              return (
+                <div key={`${currentQuestion.id}-opt-${i}`} className={optionClass}>
+                  <ShapeCard
+                    config={opt}
+                    isSelected={!showFeedback && selectedOption === i}
+                    onClick={() => handleSelectOption(i)}
+                    size="option"
+                  />
+                </div>
+              );
+            })}
           </div>
+
+          {/* Inline feedback banner */}
+          {showFeedback && (
+            <div
+              className={`test-player__inline-feedback ${
+                feedbackResult.isCorrect
+                  ? 'test-player__inline-feedback--correct'
+                  : 'test-player__inline-feedback--incorrect'
+              }`}
+            >
+              <div className="test-player__inline-feedback-icon">
+                {feedbackResult.isCorrect ? (
+                  <svg viewBox="0 0 24 24" width="28" height="28">
+                    <circle cx="12" cy="12" r="11" fill="#4caf50" />
+                    <polyline
+                      points="6,12 10,17 18,7"
+                      fill="none"
+                      stroke="white"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" width="28" height="28">
+                    <circle cx="12" cy="12" r="11" fill="#e74c3c" />
+                    <line x1="8" y1="8" x2="16" y2="16" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+                    <line x1="16" y1="8" x2="8" y2="16" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+                  </svg>
+                )}
+              </div>
+              <div className="test-player__inline-feedback-text">
+                <strong>
+                  {feedbackResult.isCorrect ? 'Correct!' : 'Incorrect'}
+                </strong>
+                {!feedbackResult.isCorrect && (
+                  <p>{feedbackResult.feedback}</p>
+                )}
+                {!feedbackResult.isCorrect && (
+                  <p className="test-player__inline-feedback-hint">
+                    The correct answer is highlighted in green above.
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
+      {/* Navigation */}
       <div className="test-player__nav">
-        {questionIndex > 0 && (
-          <button className="btn btn--outline" onClick={() => {}}>
-            Previous
-          </button>
-        )}
-        {isLastQuestion ? (
-          <button
-            className="btn btn--primary"
-            onClick={handleFinish}
-            disabled={selectedOption === null}
-          >
-            Finish
-          </button>
+        {!showFeedback ? (
+          <>
+            {questionIndex > 0 && (
+              <button className="btn btn--outline" onClick={() => {}}>
+                Previous
+              </button>
+            )}
+            {isLastQuestion ? (
+              <button
+                className="btn btn--primary"
+                onClick={handleSubmit}
+                disabled={selectedOption === null}
+              >
+                Finish
+              </button>
+            ) : (
+              <button
+                className="btn btn--primary"
+                onClick={handleSubmit}
+                disabled={selectedOption === null}
+              >
+                Submit
+              </button>
+            )}
+          </>
         ) : (
           <button
             className="btn btn--primary"
-            onClick={submitAndAdvance}
-            disabled={selectedOption === null}
+            onClick={isLastQuestion ? () => setTestComplete(true) : handleContinue}
           >
-            Next
+            {isLastQuestion ? 'See Results' : 'Next Question'}
           </button>
         )}
       </div>
