@@ -7,7 +7,7 @@ import { AdaptiveEngine } from '../engine/adaptive';
 import allQuestions from '../data/questions';
 
 const TEST_DURATION = 120; // 2 minutes
-const TOTAL_QUESTIONS = 4; // 4 questions per test session
+const TOTAL_QUESTIONS = allQuestions.length;
 
 export default function TestPlayer() {
   const engineRef = useRef(null);
