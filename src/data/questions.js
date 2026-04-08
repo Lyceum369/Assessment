@@ -348,7 +348,7 @@ const questions = [
       { shape: 'triangle', fill: 'filled' },
       { shape: 'pacman', fill: 'filled', rotation: 180, background: 'dark-corner-tl' },
     ],
-    correctIndex: 1,
+    correctIndex: 2,
     feedback:
       'Shapes alternate pac-man and triangle. The background progressively darkens from left to right.',
   },
