@@ -81,7 +81,37 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   margin-bottom: 24px;
+}
+
+.test-player__progress-wrapper {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.test-player__progress-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.test-player__header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.test-player__meta {
+  display: none;
+}
+
+.test-player__question-counter {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
 }
 
 .test-player__content {
@@ -136,11 +166,10 @@ body {
 }
 
 .test-player__difficulty {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: #888;
-  margin-bottom: 12px;
-  text-align: right;
+  white-space: nowrap;
 }
 
 /* ---------- Inline Feedback ---------- */
@@ -610,34 +639,185 @@ body {
 }
 
 @media (max-width: 600px) {
-  .shape-card--normal {
-    width: 56px;
-    height: 56px;
+  /* Header */
+  .app__header {
+    padding: 8px 12px;
+    gap: 8px;
   }
 
-  .shape-card--normal svg {
-    width: 56px;
-    height: 56px;
+  .app__logo-text {
+    font-size: 15px;
   }
 
-  .shape-card--option {
-    width: 64px;
-    height: 64px;
+  .app__section-label {
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  .test-player__sequence-wrapper {
-    padding: 16px 8px;
+  /* Test player layout */
+  .test-player {
+    padding: 12px 12px;
   }
 
-  .test-player__sequence {
-    gap: 6px;
+  .test-player__header {
+    margin-bottom: 10px;
+    gap: 8px;
   }
 
-  .test-player__options {
+  /* Hide full progress bar, show compact counter on mobile */
+  .test-player__progress-wrapper {
+    display: none;
+  }
+
+  .test-player__meta {
+    display: flex;
+    align-items: center;
     gap: 10px;
   }
 
+  .test-player__header-right {
+    flex: 1;
+    justify-content: space-between;
+  }
+
+  /* Card */
+  .test-player__card {
+    padding: 16px 12px;
+    border-radius: 12px;
+  }
+
+  .test-player__sequence-wrapper {
+    padding: 12px 8px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+  }
+
+  .test-player__sequence {
+    gap: 4px;
+    justify-content: center;
+  }
+
+  .shape-card--normal {
+    width: 44px;
+    height: 44px;
+  }
+
+  .shape-card--normal svg {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Options grid */
+  .test-player__options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-items: center;
+    padding: 4px 0;
+  }
+
+  .shape-card--option {
+    width: 72px;
+    height: 72px;
+    padding: 4px;
+  }
+
+  /* Nav */
+  .test-player__nav {
+    margin-top: 16px;
+    padding-bottom: 12px;
+  }
+
+  .btn {
+    padding: 12px 24px;
+    min-width: 100px;
+    font-size: 15px;
+  }
+
+  /* Timer */
+  .timer {
+    padding: 4px 10px;
+    font-size: 16px;
+  }
+
+  /* Progress steps (visible on tablets in landscape) */
+  .progress-bar__step {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+  }
+
+  .progress-bar__line {
+    width: 12px;
+  }
+
+  /* Inline feedback */
+  .test-player__inline-feedback {
+    padding: 12px 14px;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .test-player__inline-feedback-text strong {
+    font-size: 14px;
+  }
+
+  .test-player__inline-feedback-text p {
+    font-size: 13px;
+  }
+
+  /* Feedback screen */
+  .feedback {
+    padding: 20px 12px;
+  }
+
   .feedback__card {
-    padding: 24px;
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+
+  .feedback__title {
+    font-size: 20px;
+  }
+
+  .feedback__item {
+    padding: 10px 12px;
+  }
+
+  /* Info / Instruction screens */
+  .screen-center {
+    padding: 24px 12px;
+  }
+
+  .info-card {
+    padding: 24px 16px;
+  }
+
+  .info-card__title {
+    font-size: 18px;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 380px) {
+  .shape-card--normal {
+    width: 38px;
+    height: 38px;
+  }
+
+  .shape-card--normal svg {
+    width: 38px;
+    height: 38px;
+  }
+
+  .shape-card--option {
+    width: 62px;
+    height: 62px;
+  }
+
+  .test-player__sequence {
+    gap: 2px;
   }
 }

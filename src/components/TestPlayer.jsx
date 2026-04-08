@@ -153,17 +153,24 @@ export default function TestPlayer({ onComplete }) {
   return (
     <div className="test-player">
       <div className="test-player__header">
-        <ProgressBar
-          total={totalQuestions}
-          current={questionIndex}
-          statuses={stepStatuses}
-        />
-        <Timer seconds={timeRemaining} onExpired={handleTimerExpired} />
-      </div>
-
-      {/* Difficulty indicator */}
-      <div className="test-player__difficulty">
-        Difficulty: {engine.currentDifficulty} / 5
+        <div className="test-player__progress-wrapper">
+          <ProgressBar
+            total={totalQuestions}
+            current={questionIndex}
+            statuses={stepStatuses}
+          />
+        </div>
+        <div className="test-player__header-right">
+          <div className="test-player__meta">
+            <span className="test-player__question-counter">
+              {questionIndex + 1} / {totalQuestions}
+            </span>
+            <span className="test-player__difficulty">
+              Lvl {engine.currentDifficulty}
+            </span>
+          </div>
+          <Timer seconds={timeRemaining} onExpired={handleTimerExpired} />
+        </div>
       </div>
 
       <div className="test-player__content">
