@@ -7,10 +7,9 @@ export default function InstructionsScreen({ onPrevious, onStart }) {
         <div className="info-card__header">
           <div className="info-card__icon">
             <svg viewBox="0 0 48 48" width="48" height="48">
-              <circle cx="24" cy="24" r="20" fill="#e6f5ec" stroke="#4ecdc4" strokeWidth="2" />
-              <polygon points="24,12 30,22 18,22" fill="none" stroke="#555" strokeWidth="1.5" />
-              <circle cx="18" cy="30" r="5" fill="none" stroke="#555" strokeWidth="1.5" />
-              <rect x="26" y="26" width="10" height="10" fill="none" stroke="#555" strokeWidth="1.5" />
+              <polygon points="24,10 30,22 18,22" fill="none" stroke="#c9a84c" strokeWidth="1.5" />
+              <circle cx="17" cy="32" r="6" fill="none" stroke="#c9a84c" strokeWidth="1.5" />
+              <rect x="26" y="26" width="12" height="12" fill="none" stroke="#c9a84c" strokeWidth="1.5" />
             </svg>
           </div>
           <div>
