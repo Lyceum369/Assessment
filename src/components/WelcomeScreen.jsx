@@ -21,26 +21,27 @@ export default function WelcomeScreen({ onNext }) {
 
         <div className="info-card__body">
           <p>
-            Before you begin, please note that this assessment should be completed in one
-            sitting.
+            Welcome to The Lyceum Assessment Platform. This evaluation measures
+            your capacity for abstract reasoning and pattern recognition.
           </p>
           <p>
-            Please ensure you will not be interrupted during the assessment. We recommend
-            disabling notifications on your device.
+            This assessment must be completed in a single, uninterrupted session.
+            Please ensure you are in a quiet environment and disable all
+            notifications on your device before proceeding.
           </p>
           <p>
-            Advanced checks are built into the assessment to monitor your completion and
-            detect the potential use of AI.
+            Integrity monitoring is active throughout this assessment. Completion
+            patterns and response behaviour are recorded and analysed.
           </p>
           <p>
-            You can complete this assessment on a mobile device, but you may prefer to
-            complete it on a device with a large screen.
+            This assessment is optimised for all devices, though a larger screen
+            is recommended for the best experience.
           </p>
         </div>
 
         <div className="info-card__actions">
           <button className="btn btn--primary btn--wide" onClick={onNext}>
-            Next
+            Proceed
           </button>
         </div>
       </div>
