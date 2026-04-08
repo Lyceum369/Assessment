@@ -898,45 +898,47 @@ body {
   }
 
   .test-player__sequence-wrapper {
-    padding: 12px 8px;
-    margin-bottom: 16px;
+    padding: 10px 6px;
+    margin-bottom: 12px;
     border-radius: 8px;
+    overflow-x: visible;
   }
 
   .test-player__sequence {
     gap: 4px;
     justify-content: center;
+    flex-wrap: wrap;
   }
 
   .shape-card--normal {
-    width: 44px;
-    height: 44px;
+    width: 36px;
+    height: 36px;
   }
 
   .shape-card--normal svg {
-    width: 44px;
-    height: 44px;
+    width: 36px;
+    height: 36px;
   }
 
   /* Options grid */
   .test-player__options {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    gap: 8px;
     justify-items: center;
     padding: 4px 0;
   }
 
   .shape-card--option {
-    width: 72px;
-    height: 72px;
+    width: 64px;
+    height: 64px;
     padding: 4px;
   }
 
   /* Nav */
   .test-player__nav {
-    margin-top: 16px;
-    padding-bottom: 12px;
+    margin-top: 12px;
+    padding-bottom: 8px;
   }
 
   .btn {
@@ -1012,21 +1014,25 @@ body {
 /* Extra small phones */
 @media (max-width: 380px) {
   .shape-card--normal {
-    width: 38px;
-    height: 38px;
+    width: 32px;
+    height: 32px;
   }
 
   .shape-card--normal svg {
-    width: 38px;
-    height: 38px;
+    width: 32px;
+    height: 32px;
   }
 
   .shape-card--option {
-    width: 62px;
-    height: 62px;
+    width: 56px;
+    height: 56px;
   }
 
   .test-player__sequence {
-    gap: 2px;
+    gap: 3px;
+  }
+
+  .test-player__options {
+    gap: 6px;
   }
 }
