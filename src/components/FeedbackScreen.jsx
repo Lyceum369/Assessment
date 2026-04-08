@@ -1,6 +1,12 @@
 import React from 'react';
 
 export default function FeedbackScreen({ results, questions, timeTaken, onRedo, onNext }) {
+  const minutes = Math.floor(timeTaken / 60);
+  const seconds = timeTaken % 60;
+  const formattedTime = minutes > 0
+    ? `${minutes}m ${seconds}s`
+    : `${seconds}s`;
+
   return (
     <div className="feedback">
       <div className="feedback__card">
@@ -21,7 +27,7 @@ export default function FeedbackScreen({ results, questions, timeTaken, onRedo, 
         <hr className="feedback__divider" />
 
         <p className="feedback__summary">
-          You completed the practice questions in <strong>{timeTaken} seconds</strong>.
+          You completed the practice questions in <strong>{formattedTime}</strong>.
         </p>
 
         <div className="feedback__results">

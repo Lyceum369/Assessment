@@ -27,8 +27,8 @@ export default function InstructionsScreen({ onPrevious, onStart }) {
             the series.
           </p>
           <p>
-            In the following examples, you have <strong>2 minutes</strong> to answer{' '}
-            <strong>4 questions</strong>.
+            In the following examples, you have <strong>8 minutes</strong> to answer{' '}
+            <strong>15 questions</strong>.
           </p>
           <p>Recommended materials:</p>
           <ul>

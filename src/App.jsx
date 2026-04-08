@@ -35,7 +35,7 @@ export default function App() {
             onStart={() => setScreen(SCREENS.test)}
           />
         )}
-        {screen === SCREENS.test && <TestPlayer />}
+        {screen === SCREENS.test && <TestPlayer onComplete={() => setScreen(SCREENS.welcome)} />}
       </main>
 
       {screen !== SCREENS.test && (

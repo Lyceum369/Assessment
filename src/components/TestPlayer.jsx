@@ -8,7 +8,7 @@ import allQuestions from '../data/questions';
 
 const TEST_DURATION = 480; // 8 minutes for 15 questions
 
-export default function TestPlayer() {
+export default function TestPlayer({ onComplete }) {
   const engineRef = useRef(null);
   const totalQuestions = allQuestions.length;
 
@@ -141,7 +141,7 @@ export default function TestPlayer() {
         questions={allQuestions}
         timeTaken={timeTaken}
         onRedo={handleRedo}
-        onNext={() => alert('More questions coming soon!')}
+        onNext={onComplete}
       />
     );
   }
@@ -240,7 +240,7 @@ export default function TestPlayer() {
                 <strong>
                   {feedbackResult.isCorrect ? 'Correct!' : 'Incorrect'}
                 </strong>
-                {!feedbackResult.isCorrect && (
+                {feedbackResult.feedback && (
                   <p>{feedbackResult.feedback}</p>
                 )}
                 {!feedbackResult.isCorrect && (
@@ -258,11 +258,6 @@ export default function TestPlayer() {
       <div className="test-player__nav">
         {!showFeedback ? (
           <>
-            {questionIndex > 0 && (
-              <button className="btn btn--outline" onClick={() => {}}>
-                Previous
-              </button>
-            )}
             {isLastQuestion ? (
               <button
                 className="btn btn--primary"
