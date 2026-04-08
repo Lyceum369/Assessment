@@ -13,8 +13,8 @@ export default function InstructionsScreen({ onPrevious, onStart }) {
             </svg>
           </div>
           <div>
-            <div className="info-card__label">Abstract</div>
-            <h2 className="info-card__title">Instructions</h2>
+            <div className="info-card__label">Assessment</div>
+            <h2 className="info-card__title">Test Instructions</h2>
           </div>
         </div>
 
@@ -22,12 +22,19 @@ export default function InstructionsScreen({ onPrevious, onStart }) {
 
         <div className="info-card__body">
           <p>
-            This task involves identifying the correct symbol and pattern that completes
-            the series.
+            You will be presented with a series of abstract patterns. Each question
+            displays a sequence of symbols with one missing element. Your task is to
+            identify the rule governing the pattern and select the symbol that
+            correctly completes the series.
           </p>
           <p>
-            In the following examples, you have <strong>8 minutes</strong> to answer{' '}
-            <strong>15 questions</strong>.
+            This assessment contains <strong>15 questions</strong> and must be
+            completed within <strong>8 minutes</strong>. Difficulty adapts based
+            on your performance.
+          </p>
+          <p>
+            You will receive feedback after each response. Once submitted, answers
+            cannot be changed.
           </p>
           <p>Recommended materials:</p>
           <ul>
@@ -38,10 +45,10 @@ export default function InstructionsScreen({ onPrevious, onStart }) {
 
         <div className="info-card__actions info-card__actions--split">
           <button className="btn btn--outline" onClick={onPrevious}>
-            Previous
+            Back
           </button>
           <button className="btn btn--primary" onClick={onStart}>
-            Examples
+            Begin Assessment
           </button>
         </div>
       </div>
