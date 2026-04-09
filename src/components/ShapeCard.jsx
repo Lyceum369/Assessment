@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useId } from 'react';
 
 /* ------------------------------------------------------------------ */
 /*  Utility helpers                                                    */
@@ -213,6 +213,9 @@ export default function ShapeCard({
   onClick,
   size = 'normal',
 }) {
+  const rawId = useId();
+  const clipId = rawId.replace(/:/g, '');
+
   if (!config && !isMissing) return null;
 
   const isDark = config?.background === 'dark';
@@ -223,6 +226,10 @@ export default function ShapeCard({
     dot: isDark ? '#e8e0d0' : '#e8e0d0',
     border: isDark ? '#252d42' : '#2a3450',
   };
+
+  const isHalf = config?.fill === 'half';
+  const scaleMap = { small: 0.6, medium: 1, large: 1.3 };
+  const sf = config?.size ? (scaleMap[config.size] || 1) : 1;
 
   const cardClass = [
     'shape-card',
@@ -273,7 +280,30 @@ export default function ShapeCard({
           <>
             {renderBackground(config, colors)}
             {renderDots(config.dots, colors.dot)}
-            {renderShape(config, colors)}
+
+            {isHalf && (
+              <defs>
+                <clipPath id={clipId}>
+                  <rect
+                    x="-200" y="-200" width="250" height="400"
+                    transform={`rotate(${config.rotation || 0}, 50, 50)`}
+                  />
+                </clipPath>
+              </defs>
+            )}
+
+            <g transform={sf !== 1 ? `translate(50,50) scale(${sf}) translate(-50,-50)` : undefined}>
+              {isHalf ? (
+                <>
+                  {renderShape({ ...config, fill: 'outline', rotation: 0 }, colors)}
+                  <g clipPath={`url(#${clipId})`}>
+                    {renderShape({ ...config, fill: 'filled', rotation: 0 }, colors)}
+                  </g>
+                </>
+              ) : (
+                renderShape(config, colors)
+              )}
+            </g>
           </>
         )}
       </svg>

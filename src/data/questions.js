@@ -3,11 +3,15 @@
  *
  * Card config:
  *   shape      : circle | hexagon | triangle | square | star | cross | arrow | x-mark | pacman
- *   fill       : filled | outline
+ *   fill       : filled | outline | half   (half = split fill, clipped by rotation angle)
+ *   size       : small | medium | large    (shape scale inside the card; omit = medium)
  *   background : dark | dark-corners | dark-corner-tl/tr/bl/br | corner-lines
- *   dots       : ['tl','tr','bl','br']   (corner dot positions)
- *   rotation   : 0/90/180/270            (degrees CW – for arrow, triangle, pacman)
- *   missing    : true                    (the "?" placeholder)
+ *   dots       : ['tl','tr','bl','br']     (corner dot positions)
+ *   rotation   : 0/90/180/270/etc          (degrees CW – shape direction or half-fill angle)
+ *   missing    : true                      (the "?" placeholder)
+ *
+ * Question-level:
+ *   layout     : 'grid'                   (renders 9 items as 3×3 matrix instead of row)
  */
 
 const questions = [
@@ -23,21 +27,21 @@ const questions = [
       { shape: 'circle', fill: 'filled', background: 'dark' },
       { shape: 'square', fill: 'filled', background: 'dark' },
       { shape: 'triangle', fill: 'filled', background: 'dark' },
-      { shape: 'circle', fill: 'filled', background: 'dark' },
+      { missing: true },
       { shape: 'square', fill: 'filled', background: 'dark' },
       { shape: 'triangle', fill: 'filled', background: 'dark' },
-      { missing: true },
+      { shape: 'circle', fill: 'filled', background: 'dark' },
     ],
     options: [
       { shape: 'circle', fill: 'filled', background: 'dark' },
-      { shape: 'square', fill: 'filled', background: 'dark' },
       { shape: 'triangle', fill: 'filled', background: 'dark' },
-      { shape: 'circle', fill: 'outline' },
-      { shape: 'square', fill: 'filled' },
+      { shape: 'square', fill: 'filled', background: 'dark' },
+      { shape: 'circle', fill: 'outline', background: 'dark' },
+      { shape: 'circle', fill: 'filled' },
     ],
     correctIndex: 0,
     feedback:
-      'The shapes repeat in a simple cycle: triangle, circle, square. After triangle, the next shape is always circle.',
+      'The shapes repeat in a simple cycle: triangle, circle, square. Position 5 in the cycle is circle.',
   },
 
   /* ================================================================
@@ -176,13 +180,13 @@ const questions = [
       { missing: true },
     ],
     options: [
-      { shape: 'triangle', fill: 'filled', background: 'dark' },
-      { shape: 'pacman', fill: 'outline', rotation: 180 },
       { shape: 'arrow', fill: 'filled', rotation: 180, background: 'dark' },
       { shape: 'arrow', fill: 'filled', background: 'dark' },
-      { shape: 'pacman', fill: 'outline', rotation: 0 },
+      { shape: 'arrow', fill: 'outline', rotation: 180, background: 'dark' },
+      { shape: 'triangle', fill: 'filled', rotation: 180, background: 'dark' },
+      { shape: 'arrow', fill: 'filled', rotation: 180 },
     ],
-    correctIndex: 2,
+    correctIndex: 0,
     feedback:
       'Even positions show pac-man (alternating right/up). Odd positions show directional shapes rotating 90° clockwise: up-triangle, right-arrow, down-triangle, left-arrow.',
   },
@@ -230,22 +234,22 @@ const questions = [
       { shape: 'cross', fill: 'outline', background: 'dark-corners' },
       { shape: 'triangle', fill: 'outline' },
       { shape: 'cross', fill: 'outline', background: 'dark-corners' },
-      { shape: 'arrow', fill: 'outline', background: 'dark-corners' },
+      { missing: true },
       { shape: 'cross', fill: 'outline', background: 'dark-corners' },
       { shape: 'triangle', fill: 'outline' },
       { shape: 'cross', fill: 'outline', background: 'dark-corners' },
-      { missing: true },
+      { shape: 'arrow', fill: 'outline', background: 'dark-corners' },
     ],
     options: [
-      { shape: 'triangle', fill: 'outline', background: 'dark-corner-tl' },
-      { shape: 'x-mark', fill: 'outline' },
-      { shape: 'triangle', fill: 'outline' },
       { shape: 'arrow', fill: 'outline', background: 'dark-corners' },
+      { shape: 'triangle', fill: 'outline', background: 'dark-corners' },
+      { shape: 'arrow', fill: 'filled', background: 'dark-corners' },
       { shape: 'arrow', fill: 'outline' },
+      { shape: 'cross', fill: 'outline', background: 'dark-corners' },
     ],
-    correctIndex: 3,
+    correctIndex: 0,
     feedback:
-      'Cross with dark corners appears at every even position. Odd positions alternate between triangle-outline and arrow with dark corners.',
+      'Cross with dark corners appears at every even position. Odd positions alternate between triangle-outline and arrow with dark corners. Position 4 is an odd slot after triangle, so it is arrow with dark corners.',
   },
 
   /* ================================================================
@@ -403,23 +407,23 @@ const questions = [
       { shape: 'star', fill: 'outline' },
       { shape: 'arrow', fill: 'filled' },
       { shape: 'pacman', fill: 'outline', rotation: 180 },
-      { shape: 'star', fill: 'filled' },
+      { missing: true },
       { shape: 'triangle', fill: 'outline', rotation: 180 },
       { shape: 'pacman', fill: 'filled', rotation: 180 },
       { shape: 'star', fill: 'outline' },
       { shape: 'triangle', fill: 'filled' },
-      { missing: true },
+      { shape: 'pacman', fill: 'outline', rotation: 180 },
     ],
     options: [
-      { shape: 'pacman', fill: 'filled', rotation: 0 },
-      { shape: 'pacman', fill: 'outline', rotation: 90 },
-      { shape: 'pacman', fill: 'outline', rotation: 180 },
-      { shape: 'star', fill: 'outline' },
       { shape: 'star', fill: 'filled' },
+      { shape: 'star', fill: 'outline' },
+      { shape: 'pacman', fill: 'filled', rotation: 180 },
+      { shape: 'arrow', fill: 'filled' },
+      { shape: 'triangle', fill: 'filled' },
     ],
-    correctIndex: 2,
+    correctIndex: 0,
     feedback:
-      'The sequence has groups of 3 shapes. Each group starts with a star. Fill alternates outline/filled throughout the entire sequence.',
+      'Groups of 3: each group starts with a star. Fill alternates outline/filled throughout. Position 4 starts a new group, so it is star-filled.',
   },
 
   /* ================================================================
@@ -436,22 +440,22 @@ const questions = [
       { shape: 'hexagon', fill: 'outline', background: 'dark-corner-tr' },
       { shape: 'square', fill: 'filled', background: 'dark-corner-br' },
       { shape: 'triangle', fill: 'outline', background: 'dark-corner-bl' },
-      { shape: 'hexagon', fill: 'filled', background: 'dark-corner-tl' },
+      { missing: true },
       { shape: 'square', fill: 'outline', background: 'dark-corner-tr' },
       { shape: 'triangle', fill: 'filled', background: 'dark-corner-br' },
       { shape: 'hexagon', fill: 'outline', background: 'dark-corner-bl' },
-      { missing: true },
+      { shape: 'square', fill: 'filled', background: 'dark-corner-tl' },
     ],
     options: [
-      { shape: 'square', fill: 'filled', background: 'dark-corner-tl' },
-      { shape: 'square', fill: 'outline', background: 'dark-corner-tl' },
-      { shape: 'triangle', fill: 'filled', background: 'dark-corner-tl' },
-      { shape: 'square', fill: 'filled', background: 'dark-corner-br' },
       { shape: 'hexagon', fill: 'filled', background: 'dark-corner-tl' },
+      { shape: 'hexagon', fill: 'outline', background: 'dark-corner-tl' },
+      { shape: 'hexagon', fill: 'filled', background: 'dark-corner-br' },
+      { shape: 'triangle', fill: 'filled', background: 'dark-corner-tl' },
+      { shape: 'square', fill: 'filled', background: 'dark-corner-tl' },
     ],
     correctIndex: 0,
     feedback:
-      'Three properties change simultaneously. Shapes cycle: triangle, hexagon, square. Fill alternates: filled, outline, filled, outline. The dark corner rotates clockwise: TL → TR → BR → BL, repeating.',
+      'Three properties change simultaneously. Shapes cycle: triangle, hexagon, square. Fill alternates: filled, outline. The dark corner rotates clockwise: TL → TR → BR → BL. Position 5 is hexagon-filled-TL.',
   },
 
   /* ================================================================
@@ -493,25 +497,25 @@ const questions = [
     id: 'q17',
     difficulty: 2,
     sequence: [
-      { shape: 'cross', fill: 'filled', background: 'dark' },
-      { shape: 'x-mark', fill: 'outline', background: 'dark' },
-      { shape: 'cross', fill: 'filled', background: 'dark' },
-      { shape: 'x-mark', fill: 'outline', background: 'dark' },
-      { shape: 'cross', fill: 'filled', background: 'dark' },
-      { shape: 'x-mark', fill: 'outline', background: 'dark' },
-      { shape: 'cross', fill: 'filled', background: 'dark' },
       { missing: true },
+      { shape: 'x-mark', fill: 'outline', background: 'dark' },
+      { shape: 'cross', fill: 'filled', background: 'dark' },
+      { shape: 'x-mark', fill: 'outline', background: 'dark' },
+      { shape: 'cross', fill: 'filled', background: 'dark' },
+      { shape: 'x-mark', fill: 'outline', background: 'dark' },
+      { shape: 'cross', fill: 'filled', background: 'dark' },
+      { shape: 'x-mark', fill: 'outline', background: 'dark' },
     ],
     options: [
-      { shape: 'cross', fill: 'outline', background: 'dark' },
-      { shape: 'x-mark', fill: 'outline', background: 'dark' },
-      { shape: 'x-mark', fill: 'filled', background: 'dark' },
       { shape: 'cross', fill: 'filled', background: 'dark' },
-      { shape: 'x-mark', fill: 'outline' },
+      { shape: 'cross', fill: 'outline', background: 'dark' },
+      { shape: 'x-mark', fill: 'filled', background: 'dark' },
+      { shape: 'x-mark', fill: 'outline', background: 'dark' },
+      { shape: 'cross', fill: 'filled' },
     ],
-    correctIndex: 1,
+    correctIndex: 0,
     feedback:
-      'Two simple alternations. Shapes alternate: cross, x-mark. Fill alternates: filled, outline. All cards share a dark background.',
+      'Shapes alternate cross/x-mark. Fill alternates filled/outline. All on dark. Working backwards from position 2 (x-mark outline), position 1 is cross filled.',
   },
 
   /* ================================================================
@@ -557,11 +561,11 @@ const questions = [
       { shape: 'arrow', fill: 'outline', rotation: 0, background: 'dark' },
       { shape: 'triangle', fill: 'outline', rotation: 90, background: 'dark' },
       { shape: 'arrow', fill: 'outline', rotation: 180, background: 'dark' },
-      { shape: 'triangle', fill: 'outline', rotation: 270, background: 'dark' },
+      { missing: true },
       { shape: 'arrow', fill: 'outline', rotation: 0, background: 'dark' },
       { shape: 'triangle', fill: 'outline', rotation: 90, background: 'dark' },
       { shape: 'arrow', fill: 'outline', rotation: 180, background: 'dark' },
-      { missing: true },
+      { shape: 'triangle', fill: 'outline', rotation: 270, background: 'dark' },
     ],
     options: [
       { shape: 'triangle', fill: 'outline', rotation: 270, background: 'dark' },
@@ -572,7 +576,7 @@ const questions = [
     ],
     correctIndex: 0,
     feedback:
-      'Shapes alternate: arrow, triangle. Direction rotates 90° clockwise each step: 0° → 90° → 180° → 270°, then repeats. All on dark backgrounds.',
+      'Shapes alternate: arrow, triangle. Direction rotates 90° clockwise each step: 0° → 90° → 180° → 270°. Position 4 is triangle at 270°.',
   },
 
   /* ================================================================
@@ -756,6 +760,163 @@ const questions = [
     correctIndex: 0,
     feedback:
       'The triangle rotates 90° clockwise each step. The single dot also moves clockwise: TL → TR → BR → BL. Both patterns reset after four steps, so position 5 matches position 1.',
+  },
+
+  /* ================================================================
+     Q26 – Half-filled circles/squares with rotating split       (D3)
+     Shapes alternate circle/square. Both use half-fill.
+     The split angle rotates 90° CW each step: 0 → 90 → 180 → 270.
+     ================================================================ */
+  {
+    id: 'q26',
+    difficulty: 3,
+    sequence: [
+      { shape: 'circle', fill: 'half', rotation: 0 },
+      { shape: 'square', fill: 'half', rotation: 90 },
+      { shape: 'circle', fill: 'half', rotation: 180 },
+      { shape: 'square', fill: 'half', rotation: 270 },
+      { shape: 'circle', fill: 'half', rotation: 0 },
+      { shape: 'square', fill: 'half', rotation: 90 },
+      { shape: 'circle', fill: 'half', rotation: 180 },
+      { missing: true },
+    ],
+    options: [
+      { shape: 'square', fill: 'half', rotation: 270 },
+      { shape: 'square', fill: 'half', rotation: 90 },
+      { shape: 'circle', fill: 'half', rotation: 270 },
+      { shape: 'square', fill: 'filled' },
+      { shape: 'square', fill: 'half', rotation: 0 },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes alternate: circle, square. Both use half-fill. The split angle rotates 90° clockwise each step: 0° → 90° → 180° → 270°.',
+  },
+
+  /* ================================================================
+     Q27 – Size progression with shape cycle                     (D2)
+     Shapes cycle: circle, square, triangle. Each group goes
+     small → medium → large. All filled.
+     ================================================================ */
+  {
+    id: 'q27',
+    difficulty: 2,
+    sequence: [
+      { shape: 'circle', fill: 'filled', size: 'small' },
+      { shape: 'circle', fill: 'filled', size: 'medium' },
+      { shape: 'circle', fill: 'filled', size: 'large' },
+      { shape: 'square', fill: 'filled', size: 'small' },
+      { shape: 'square', fill: 'filled', size: 'medium' },
+      { shape: 'square', fill: 'filled', size: 'large' },
+      { shape: 'triangle', fill: 'filled', size: 'small' },
+      { shape: 'triangle', fill: 'filled', size: 'medium' },
+      { missing: true },
+    ],
+    options: [
+      { shape: 'triangle', fill: 'filled', size: 'large' },
+      { shape: 'triangle', fill: 'filled', size: 'small' },
+      { shape: 'triangle', fill: 'outline', size: 'large' },
+      { shape: 'circle', fill: 'filled', size: 'large' },
+      { shape: 'triangle', fill: 'filled', size: 'medium' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes change in groups of three: circle, square, triangle. Within each group, size grows: small → medium → large.',
+  },
+
+  /* ================================================================
+     Q28 – 3×3 grid: shape by column, fill by row               (D4)
+     Columns share the same shape. Rows share the same fill.
+     Row 1 = filled, Row 2 = outline, Row 3 = half.
+     Col 1 = circle, Col 2 = square, Col 3 = triangle.
+     ================================================================ */
+  {
+    id: 'q28',
+    difficulty: 4,
+    layout: 'grid',
+    sequence: [
+      { shape: 'circle', fill: 'filled' },
+      { shape: 'square', fill: 'filled' },
+      { shape: 'triangle', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'square', fill: 'outline' },
+      { shape: 'triangle', fill: 'outline' },
+      { shape: 'circle', fill: 'half', rotation: 0 },
+      { shape: 'square', fill: 'half', rotation: 0 },
+      { missing: true },
+    ],
+    options: [
+      { shape: 'triangle', fill: 'half', rotation: 0 },
+      { shape: 'triangle', fill: 'filled' },
+      { shape: 'triangle', fill: 'outline' },
+      { shape: 'square', fill: 'half', rotation: 0 },
+      { shape: 'circle', fill: 'half', rotation: 0 },
+    ],
+    correctIndex: 0,
+    feedback:
+      'A 3×3 grid. Columns share shape: circle, square, triangle. Rows share fill: filled, outline, half. The missing cell is triangle with half-fill.',
+  },
+
+  /* ================================================================
+     Q29 – 3×3 grid: shape + fill + size (three variables)       (D5)
+     Rows = shape (circle, square, triangle).
+     Columns = fill (filled, outline, half).
+     Size increases left-to-right (small, medium, large).
+     ================================================================ */
+  {
+    id: 'q29',
+    difficulty: 5,
+    layout: 'grid',
+    sequence: [
+      { shape: 'circle', fill: 'filled', size: 'small' },
+      { shape: 'circle', fill: 'outline', size: 'medium' },
+      { shape: 'circle', fill: 'half', rotation: 0, size: 'large' },
+      { shape: 'square', fill: 'filled', size: 'small' },
+      { shape: 'square', fill: 'outline', size: 'medium' },
+      { shape: 'square', fill: 'half', rotation: 0, size: 'large' },
+      { shape: 'triangle', fill: 'filled', size: 'small' },
+      { shape: 'triangle', fill: 'outline', size: 'medium' },
+      { missing: true },
+    ],
+    options: [
+      { shape: 'triangle', fill: 'half', rotation: 0, size: 'large' },
+      { shape: 'triangle', fill: 'half', rotation: 0, size: 'small' },
+      { shape: 'triangle', fill: 'filled', size: 'large' },
+      { shape: 'circle', fill: 'half', rotation: 0, size: 'large' },
+      { shape: 'triangle', fill: 'outline', size: 'large' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Three simultaneous patterns in a 3×3 grid. Rows share shape (circle, square, triangle). Columns share fill (filled, outline, half). Size increases left to right (small, medium, large).',
+  },
+
+  /* ================================================================
+     Q30 – Half-fill on dark with size and shape alternation     (D4)
+     Shapes alternate hexagon/circle on dark. Half-fill rotates
+     90° each step. Size alternates small/large.
+     ================================================================ */
+  {
+    id: 'q30',
+    difficulty: 4,
+    sequence: [
+      { shape: 'hexagon', fill: 'half', rotation: 0, size: 'small', background: 'dark' },
+      { shape: 'circle', fill: 'half', rotation: 90, size: 'large', background: 'dark' },
+      { shape: 'hexagon', fill: 'half', rotation: 180, size: 'small', background: 'dark' },
+      { shape: 'circle', fill: 'half', rotation: 270, size: 'large', background: 'dark' },
+      { shape: 'hexagon', fill: 'half', rotation: 0, size: 'small', background: 'dark' },
+      { shape: 'circle', fill: 'half', rotation: 90, size: 'large', background: 'dark' },
+      { missing: true },
+      { shape: 'circle', fill: 'half', rotation: 270, size: 'large', background: 'dark' },
+    ],
+    options: [
+      { shape: 'hexagon', fill: 'half', rotation: 180, size: 'small', background: 'dark' },
+      { shape: 'hexagon', fill: 'half', rotation: 180, size: 'large', background: 'dark' },
+      { shape: 'circle', fill: 'half', rotation: 180, size: 'small', background: 'dark' },
+      { shape: 'hexagon', fill: 'half', rotation: 90, size: 'small', background: 'dark' },
+      { shape: 'hexagon', fill: 'filled', size: 'small', background: 'dark' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Four patterns interleave: shapes alternate hexagon/circle, half-fill rotates 90° each step, size alternates small/large, all on dark backgrounds.',
   },
 ];
 
