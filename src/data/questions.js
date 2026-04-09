@@ -453,6 +453,157 @@ const questions = [
     feedback:
       'Three properties change simultaneously. Shapes cycle: triangle, hexagon, square. Fill alternates: filled, outline, filled, outline. The dark corner rotates clockwise: TL → TR → BR → BL, repeating.',
   },
+
+  /* ================================================================
+     Q16 – Triangle/arrow rotation with single moving corner dot (D3)
+     Shapes alternate triangle/arrow, both rotate 90° CW each step.
+     A single dot rotates through corners: TL → TR → BR → BL.
+     ================================================================ */
+  {
+    id: 'q16',
+    difficulty: 3,
+    sequence: [
+      { shape: 'triangle', fill: 'filled', rotation: 0, dots: ['tl'] },
+      { shape: 'arrow', fill: 'filled', rotation: 90, dots: ['tr'] },
+      { shape: 'triangle', fill: 'filled', rotation: 180, dots: ['br'] },
+      { shape: 'arrow', fill: 'filled', rotation: 270, dots: ['bl'] },
+      { shape: 'triangle', fill: 'filled', rotation: 0, dots: ['tl'] },
+      { shape: 'arrow', fill: 'filled', rotation: 90, dots: ['tr'] },
+      { shape: 'triangle', fill: 'filled', rotation: 180, dots: ['br'] },
+      { missing: true },
+    ],
+    options: [
+      { shape: 'arrow', fill: 'filled', rotation: 270, dots: ['bl'] },
+      { shape: 'arrow', fill: 'filled', rotation: 270, dots: ['tr'] },
+      { shape: 'triangle', fill: 'filled', rotation: 270, dots: ['bl'] },
+      { shape: 'arrow', fill: 'outline', rotation: 270, dots: ['bl'] },
+      { shape: 'arrow', fill: 'filled', rotation: 180, dots: ['bl'] },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Two patterns interleave. Shapes alternate: triangle, arrow. Both rotate 90° clockwise each step. The single dot moves through corners: TL → TR → BR → BL, repeating.',
+  },
+
+  /* ================================================================
+     Q17 – Cross/x-mark on dark with fill cycling              (D2)
+     Shapes alternate cross/x-mark, all on dark background.
+     Fill alternates: filled, outline, filled, outline…
+     ================================================================ */
+  {
+    id: 'q17',
+    difficulty: 2,
+    sequence: [
+      { shape: 'cross', fill: 'filled', background: 'dark' },
+      { shape: 'x-mark', fill: 'outline', background: 'dark' },
+      { shape: 'cross', fill: 'filled', background: 'dark' },
+      { shape: 'x-mark', fill: 'outline', background: 'dark' },
+      { shape: 'cross', fill: 'filled', background: 'dark' },
+      { shape: 'x-mark', fill: 'outline', background: 'dark' },
+      { shape: 'cross', fill: 'filled', background: 'dark' },
+      { missing: true },
+    ],
+    options: [
+      { shape: 'cross', fill: 'outline', background: 'dark' },
+      { shape: 'x-mark', fill: 'outline', background: 'dark' },
+      { shape: 'x-mark', fill: 'filled', background: 'dark' },
+      { shape: 'cross', fill: 'filled', background: 'dark' },
+      { shape: 'x-mark', fill: 'outline' },
+    ],
+    correctIndex: 1,
+    feedback:
+      'Two simple alternations. Shapes alternate: cross, x-mark. Fill alternates: filled, outline. All cards share a dark background.',
+  },
+
+  /* ================================================================
+     Q18 – Tri/sq/circle cycle with light-then-dark phases     (D3)
+     3-shape cycle: triangle, square, circle. First group on light,
+     second group on dark, third group on light again.
+     ================================================================ */
+  {
+    id: 'q18',
+    difficulty: 3,
+    sequence: [
+      { shape: 'triangle', fill: 'filled' },
+      { shape: 'square', fill: 'filled' },
+      { shape: 'circle', fill: 'filled' },
+      { shape: 'triangle', fill: 'filled', background: 'dark' },
+      { shape: 'square', fill: 'filled', background: 'dark' },
+      { shape: 'circle', fill: 'filled', background: 'dark' },
+      { shape: 'triangle', fill: 'filled' },
+      { shape: 'square', fill: 'filled' },
+      { missing: true },
+    ],
+    options: [
+      { shape: 'circle', fill: 'filled' },
+      { shape: 'circle', fill: 'filled', background: 'dark' },
+      { shape: 'triangle', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'square', fill: 'filled' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes cycle in groups of three: triangle, square, circle. The background alternates every group: light, dark, light. The missing card is the third in the light group.',
+  },
+
+  /* ================================================================
+     Q19 – Arrow/triangle pure directional rotation on dark    (D2)
+     Alternating arrow/triangle, both on dark.
+     Direction rotates 90° CW: 0 → 90 → 180 → 270.
+     ================================================================ */
+  {
+    id: 'q19',
+    difficulty: 2,
+    sequence: [
+      { shape: 'arrow', fill: 'outline', rotation: 0, background: 'dark' },
+      { shape: 'triangle', fill: 'outline', rotation: 90, background: 'dark' },
+      { shape: 'arrow', fill: 'outline', rotation: 180, background: 'dark' },
+      { shape: 'triangle', fill: 'outline', rotation: 270, background: 'dark' },
+      { shape: 'arrow', fill: 'outline', rotation: 0, background: 'dark' },
+      { shape: 'triangle', fill: 'outline', rotation: 90, background: 'dark' },
+      { shape: 'arrow', fill: 'outline', rotation: 180, background: 'dark' },
+      { missing: true },
+    ],
+    options: [
+      { shape: 'triangle', fill: 'outline', rotation: 270, background: 'dark' },
+      { shape: 'triangle', fill: 'outline', rotation: 180, background: 'dark' },
+      { shape: 'arrow', fill: 'outline', rotation: 270, background: 'dark' },
+      { shape: 'triangle', fill: 'filled', rotation: 270, background: 'dark' },
+      { shape: 'triangle', fill: 'outline', rotation: 0, background: 'dark' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes alternate: arrow, triangle. Direction rotates 90° clockwise each step: 0° → 90° → 180° → 270°, then repeats. All on dark backgrounds.',
+  },
+
+  /* ================================================================
+     Q20 – 4-shape cycle on dark with fill alternation          (D2)
+     Shapes cycle: hexagon, circle, square, triangle – all on dark.
+     Fill alternates: filled, outline, filled, outline…
+     ================================================================ */
+  {
+    id: 'q20',
+    difficulty: 2,
+    sequence: [
+      { shape: 'hexagon', fill: 'filled', background: 'dark' },
+      { shape: 'circle', fill: 'outline', background: 'dark' },
+      { shape: 'square', fill: 'filled', background: 'dark' },
+      { shape: 'triangle', fill: 'outline', background: 'dark' },
+      { shape: 'hexagon', fill: 'filled', background: 'dark' },
+      { shape: 'circle', fill: 'outline', background: 'dark' },
+      { shape: 'square', fill: 'filled', background: 'dark' },
+      { missing: true },
+    ],
+    options: [
+      { shape: 'triangle', fill: 'outline', background: 'dark' },
+      { shape: 'triangle', fill: 'filled', background: 'dark' },
+      { shape: 'hexagon', fill: 'outline', background: 'dark' },
+      { shape: 'circle', fill: 'outline', background: 'dark' },
+      { shape: 'triangle', fill: 'outline' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Four shapes cycle in order: hexagon, circle, square, triangle. Fill alternates: filled, outline. All on dark backgrounds. The next card continues both patterns.',
+  },
 ];
 
 export default questions;
