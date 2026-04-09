@@ -604,6 +604,159 @@ const questions = [
     feedback:
       'Four shapes cycle in order: hexagon, circle, square, triangle. Fill alternates: filled, outline. All on dark backgrounds. The next card continues both patterns.',
   },
+
+  /* ================================================================
+     Q21 – 3-shape cycle with mid-sequence missing             (D1)
+     Shapes cycle: star(filled), square(filled), circle(outline).
+     The missing element is in position 4 (middle of the row).
+     ================================================================ */
+  {
+    id: 'q21',
+    difficulty: 1,
+    sequence: [
+      { shape: 'star', fill: 'filled' },
+      { shape: 'square', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+      { missing: true },
+      { shape: 'square', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'star', fill: 'filled' },
+      { shape: 'square', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+    ],
+    options: [
+      { shape: 'star', fill: 'filled' },
+      { shape: 'star', fill: 'outline' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'circle', fill: 'filled' },
+      { shape: 'square', fill: 'filled' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Three shapes repeat in a fixed cycle: star (filled), square (filled), circle (outline). Position 4 restarts the cycle with star (filled).',
+  },
+
+  /* ================================================================
+     Q22 – Pacman/triangle alternation with 90° CW rotation    (D3)
+     Shapes alternate pacman/triangle. Each rotates 90° CW per
+     appearance: 0° → 90° → 180° → 270°.
+     ================================================================ */
+  {
+    id: 'q22',
+    difficulty: 3,
+    sequence: [
+      { shape: 'pacman', fill: 'filled', rotation: 0 },
+      { shape: 'triangle', fill: 'filled', rotation: 0 },
+      { shape: 'pacman', fill: 'filled', rotation: 90 },
+      { shape: 'triangle', fill: 'filled', rotation: 90 },
+      { shape: 'pacman', fill: 'filled', rotation: 180 },
+      { shape: 'triangle', fill: 'filled', rotation: 180 },
+      { missing: true },
+      { shape: 'triangle', fill: 'filled', rotation: 270 },
+    ],
+    options: [
+      { shape: 'pacman', fill: 'filled', rotation: 270 },
+      { shape: 'pacman', fill: 'filled', rotation: 180 },
+      { shape: 'pacman', fill: 'filled', rotation: 90 },
+      { shape: 'triangle', fill: 'filled', rotation: 270 },
+      { shape: 'pacman', fill: 'outline', rotation: 270 },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes alternate: pacman, triangle. Each shape rotates 90° clockwise with every appearance: 0° → 90° → 180° → 270°. The missing pacman is at 270°.',
+  },
+
+  /* ================================================================
+     Q23 – ABBA shape pattern: star/cross symmetry             (D3)
+     Shapes follow an ABBA pattern: star, cross, cross, star.
+     Stars are always outline. Crosses alternate: filled, outline.
+     ================================================================ */
+  {
+    id: 'q23',
+    difficulty: 3,
+    sequence: [
+      { shape: 'star', fill: 'outline' },
+      { shape: 'cross', fill: 'filled' },
+      { shape: 'cross', fill: 'outline' },
+      { shape: 'star', fill: 'outline' },
+      { shape: 'star', fill: 'outline' },
+      { shape: 'cross', fill: 'filled' },
+      { missing: true },
+      { shape: 'star', fill: 'outline' },
+    ],
+    options: [
+      { shape: 'cross', fill: 'outline' },
+      { shape: 'cross', fill: 'filled' },
+      { shape: 'star', fill: 'outline' },
+      { shape: 'star', fill: 'filled' },
+      { shape: 'cross', fill: 'filled', background: 'dark' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes follow a symmetric ABBA pattern: star, cross, cross, star. Stars are always outline. Crosses alternate fill each pair: filled, outline. The missing cross is outline.',
+  },
+
+  /* ================================================================
+     Q24 – Pacman rotation on dark, missing at position 1      (D4)
+     All pacman shapes on dark backgrounds, rotating 90° CW.
+     The missing element is the FIRST card – requires backward
+     deduction from the visible pattern.
+     ================================================================ */
+  {
+    id: 'q24',
+    difficulty: 4,
+    sequence: [
+      { missing: true },
+      { shape: 'pacman', fill: 'filled', rotation: 90, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 180, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 270, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 0, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 90, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 180, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 270, background: 'dark' },
+    ],
+    options: [
+      { shape: 'pacman', fill: 'filled', rotation: 0, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 90, background: 'dark' },
+      { shape: 'pacman', fill: 'outline', rotation: 0, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 0 },
+      { shape: 'pacman', fill: 'filled', rotation: 270, background: 'dark' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'The pacman rotates 90° clockwise each step: 0° → 90° → 180° → 270°, repeating. All on dark backgrounds. Working backwards from position 2 (90°), position 1 must be 0°.',
+  },
+
+  /* ================================================================
+     Q25 – Triangle rotation with clockwise dot, mid-missing   (D2)
+     Triangle rotates 90° CW each step. A single dot also moves
+     clockwise through corners: TL → TR → BR → BL.
+     Missing element is in the middle of the sequence.
+     ================================================================ */
+  {
+    id: 'q25',
+    difficulty: 2,
+    sequence: [
+      { shape: 'triangle', fill: 'outline', rotation: 0, dots: ['tl'] },
+      { shape: 'triangle', fill: 'outline', rotation: 90, dots: ['tr'] },
+      { shape: 'triangle', fill: 'outline', rotation: 180, dots: ['br'] },
+      { shape: 'triangle', fill: 'outline', rotation: 270, dots: ['bl'] },
+      { missing: true },
+      { shape: 'triangle', fill: 'outline', rotation: 90, dots: ['tr'] },
+      { shape: 'triangle', fill: 'outline', rotation: 180, dots: ['br'] },
+      { shape: 'triangle', fill: 'outline', rotation: 270, dots: ['bl'] },
+    ],
+    options: [
+      { shape: 'triangle', fill: 'outline', rotation: 0, dots: ['tl'] },
+      { shape: 'triangle', fill: 'outline', rotation: 0, dots: ['tr'] },
+      { shape: 'triangle', fill: 'outline', rotation: 90, dots: ['tl'] },
+      { shape: 'triangle', fill: 'outline', rotation: 0, dots: ['br'] },
+      { shape: 'triangle', fill: 'outline', rotation: 270, dots: ['tl'] },
+    ],
+    correctIndex: 0,
+    feedback:
+      'The triangle rotates 90° clockwise each step. The single dot also moves clockwise: TL → TR → BR → BL. Both patterns reset after four steps, so position 5 matches position 1.',
+  },
 ];
 
 export default questions;
