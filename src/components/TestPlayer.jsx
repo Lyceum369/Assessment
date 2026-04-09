@@ -159,9 +159,12 @@ export default function TestPlayer({ onComplete }) {
 
       <div className="test-player__content">
         <div className="test-player__card">
-          {/* Sequence row */}
+          {/* Sequence: linear row or 3×3 grid */}
           <div className="test-player__sequence-wrapper">
-            <div className="test-player__sequence">
+            <div className={currentQuestion.layout === 'grid'
+              ? 'test-player__grid'
+              : 'test-player__sequence'}
+            >
               {currentQuestion.sequence.map((card, i) => (
                 <ShapeCard
                   key={`${currentQuestion.id}-seq-${i}`}

@@ -162,6 +162,14 @@ body {
   flex-wrap: nowrap;
 }
 
+.test-player__grid {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 8px;
+  justify-content: center;
+  justify-items: center;
+}
+
 .test-player__options {
   display: flex;
   justify-content: center;
@@ -908,6 +916,10 @@ body {
     gap: 4px;
     justify-content: center;
     flex-wrap: wrap;
+  }
+
+  .test-player__grid {
+    gap: 4px;
   }
 
   .shape-card--normal {
