@@ -1069,6 +1069,155 @@ const questions = [
     feedback:
       'Shapes alternate: pacman (light background), triangle (dark background). Both rotate 90° clockwise per appearance. The missing pacman is at 270°.',
   },
+
+  /* ================================================================
+     Q36 – 3-shape cycle + dots disappearing + size shrinking   (D3)
+     Shapes cycle tri(filled), cir(outline), sq(outline).
+     Group 1: 4 corner dots. Group 2: no dots.
+     Group 3: no dots, size small. Missing at end of group 1.
+     ================================================================ */
+  {
+    id: 'q36',
+    difficulty: 3,
+    sequence: [
+      { shape: 'triangle', fill: 'filled', dots: ['tl', 'tr', 'bl', 'br'] },
+      { shape: 'circle', fill: 'outline', dots: ['tl', 'tr', 'bl', 'br'] },
+      { missing: true },
+      { shape: 'triangle', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'square', fill: 'outline' },
+      { shape: 'triangle', fill: 'filled', size: 'small' },
+      { shape: 'circle', fill: 'outline', size: 'small' },
+      { shape: 'square', fill: 'outline', size: 'small' },
+    ],
+    options: [
+      { shape: 'square', fill: 'outline', dots: ['tl', 'tr', 'bl', 'br'] },
+      { shape: 'square', fill: 'outline' },
+      { shape: 'square', fill: 'filled', dots: ['tl', 'tr', 'bl', 'br'] },
+      { shape: 'circle', fill: 'outline', dots: ['tl', 'tr', 'bl', 'br'] },
+      { shape: 'square', fill: 'outline', dots: ['tl', 'tr'] },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes cycle: triangle, circle, square. Three groups: group 1 has 4 corner dots, group 2 has none, group 3 is small with none. Position 3 completes group 1: square-outline with 4 dots.',
+  },
+
+  /* ================================================================
+     Q37 – Circle/square alternation, dark corners at endpoints (D2)
+     Shapes alternate circle/square, all outline.
+     Dark corners appear only at the first and last positions.
+     Missing at position 2.
+     ================================================================ */
+  {
+    id: 'q37',
+    difficulty: 2,
+    sequence: [
+      { shape: 'circle', fill: 'outline', background: 'dark-corner-bl' },
+      { missing: true },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'square', fill: 'outline' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'square', fill: 'outline', background: 'dark-corner-br' },
+    ],
+    options: [
+      { shape: 'square', fill: 'outline' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'circle', fill: 'outline', background: 'dark-corner-bl' },
+      { shape: 'square', fill: 'outline', background: 'dark-corner-br' },
+      { shape: 'square', fill: 'filled' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes alternate: circle, square. All outline. Dark corners appear only at the first and last positions. Position 2 is square-outline without a dark corner.',
+  },
+
+  /* ================================================================
+     Q38 – Triangle on dark / circle alternation                (D1)
+     Simple alternation: triangle-outline on dark, circle-outline
+     on light. Short 6-card sequence.
+     ================================================================ */
+  {
+    id: 'q38',
+    difficulty: 1,
+    sequence: [
+      { shape: 'triangle', fill: 'outline', background: 'dark' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'triangle', fill: 'outline', background: 'dark' },
+      { shape: 'circle', fill: 'outline' },
+      { missing: true },
+      { shape: 'circle', fill: 'outline' },
+    ],
+    options: [
+      { shape: 'triangle', fill: 'outline', background: 'dark' },
+      { shape: 'circle', fill: 'filled', background: 'dark' },
+      { shape: 'triangle', fill: 'filled', background: 'dark' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'triangle', fill: 'outline' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Simple alternation: triangle (outline, dark background) then circle (outline, light background). Odd positions are always triangle on dark.',
+  },
+
+  /* ================================================================
+     Q39 – 4-shape cycle, cross fill alternates per cycle       (D2)
+     Shapes cycle: square, triangle, cross, circle.
+     Cross alternates filled/outline per cycle.
+     All other shapes remain outline.
+     ================================================================ */
+  {
+    id: 'q39',
+    difficulty: 2,
+    sequence: [
+      { shape: 'square', fill: 'outline' },
+      { shape: 'triangle', fill: 'outline' },
+      { shape: 'cross', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'square', fill: 'outline' },
+      { missing: true },
+      { shape: 'cross', fill: 'outline' },
+      { shape: 'circle', fill: 'outline' },
+    ],
+    options: [
+      { shape: 'triangle', fill: 'outline' },
+      { shape: 'triangle', fill: 'filled', background: 'dark' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'cross', fill: 'outline' },
+      { shape: 'triangle', fill: 'filled' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes cycle: square, triangle, cross, circle. Cross alternates filled/outline each cycle. All other shapes stay outline. Position 6 is triangle-outline.',
+  },
+
+  /* ================================================================
+     Q40 – Circle/square with rotating dark corner              (D3)
+     Shapes alternate circle/square. Dark corner rotates
+     clockwise: TL → TR → BR → BL each step.
+     ================================================================ */
+  {
+    id: 'q40',
+    difficulty: 3,
+    sequence: [
+      { shape: 'circle', fill: 'outline', background: 'dark-corner-tl' },
+      { shape: 'square', fill: 'outline', background: 'dark-corner-tr' },
+      { shape: 'circle', fill: 'outline', background: 'dark-corner-br' },
+      { shape: 'square', fill: 'outline', background: 'dark-corner-bl' },
+      { shape: 'circle', fill: 'outline', background: 'dark-corner-tl' },
+      { shape: 'square', fill: 'outline', background: 'dark-corner-tr' },
+      { missing: true },
+    ],
+    options: [
+      { shape: 'circle', fill: 'outline', background: 'dark-corner-br' },
+      { shape: 'circle', fill: 'outline', background: 'dark-corner-bl' },
+      { shape: 'square', fill: 'outline', background: 'dark-corner-br' },
+      { shape: 'circle', fill: 'filled', background: 'dark-corner-br' },
+      { shape: 'circle', fill: 'outline', background: 'dark-corner-tl' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes alternate: circle, square. The dark corner rotates clockwise each step: TL → TR → BR → BL. Position 7 is circle with dark corner BR.',
+  },
 ];
 
 export default questions;
