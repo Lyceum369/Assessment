@@ -1218,6 +1218,161 @@ const questions = [
     feedback:
       'Shapes alternate: circle, square. The dark corner rotates clockwise each step: TL → TR → BR → BL. Position 7 is circle with dark corner BR.',
   },
+
+  /* ================================================================
+     Q41 – Star/square/circle cycle with size variation          (D2)
+     Shapes cycle: star(filled, large), square(filled, small),
+     circle(outline). Missing in mid-sequence.
+     ================================================================ */
+  {
+    id: 'q41',
+    difficulty: 2,
+    sequence: [
+      { shape: 'star', fill: 'filled', size: 'large' },
+      { shape: 'square', fill: 'filled', size: 'small' },
+      { shape: 'circle', fill: 'outline' },
+      { missing: true },
+      { shape: 'square', fill: 'filled', size: 'small' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'star', fill: 'filled', size: 'large' },
+      { shape: 'square', fill: 'filled', size: 'small' },
+      { shape: 'circle', fill: 'outline' },
+    ],
+    options: [
+      { shape: 'star', fill: 'filled', size: 'large' },
+      { shape: 'star', fill: 'outline', size: 'large' },
+      { shape: 'star', fill: 'filled', size: 'small' },
+      { shape: 'star', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Three shapes cycle: star (filled, large), square (filled, small), circle (outline, medium). Position 4 restarts the cycle: star, filled, large.',
+  },
+
+  /* ================================================================
+     Q42 – Triangle/pacman alternation + rotation + dot          (D4)
+     Shapes alternate pacman/triangle. Both rotate 90° CW each step.
+     A single dot moves clockwise: TL → TR → BR → BL.
+     Missing at position 1 (backward deduction).
+     ================================================================ */
+  {
+    id: 'q42',
+    difficulty: 4,
+    sequence: [
+      { missing: true },
+      { shape: 'triangle', fill: 'outline', rotation: 90, dots: ['tr'] },
+      { shape: 'pacman', fill: 'outline', rotation: 180, dots: ['br'] },
+      { shape: 'triangle', fill: 'outline', rotation: 270, dots: ['bl'] },
+      { shape: 'pacman', fill: 'outline', rotation: 0, dots: ['tl'] },
+      { shape: 'triangle', fill: 'outline', rotation: 90, dots: ['tr'] },
+      { shape: 'pacman', fill: 'outline', rotation: 180, dots: ['br'] },
+      { shape: 'triangle', fill: 'outline', rotation: 270, dots: ['bl'] },
+    ],
+    options: [
+      { shape: 'pacman', fill: 'outline', rotation: 0, dots: ['tl'] },
+      { shape: 'pacman', fill: 'outline', rotation: 0, dots: ['tr'] },
+      { shape: 'triangle', fill: 'outline', rotation: 0, dots: ['tl'] },
+      { shape: 'pacman', fill: 'outline', rotation: 90, dots: ['tl'] },
+      { shape: 'pacman', fill: 'outline', rotation: 0 },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes alternate: pacman, triangle. Both rotate 90° CW each step. The dot moves clockwise: TL → TR → BR → BL. Working backwards, position 1 is pacman at 0° with dot TL.',
+  },
+
+  /* ================================================================
+     Q43 – Hex/star/circle cycle on dark, missing at start      (D3)
+     Shapes cycle: hexagon(outline, dark), star(filled, dark),
+     circle(outline, light). Missing at position 1.
+     ================================================================ */
+  {
+    id: 'q43',
+    difficulty: 3,
+    sequence: [
+      { missing: true },
+      { shape: 'star', fill: 'filled', background: 'dark' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'hexagon', fill: 'outline', background: 'dark' },
+      { shape: 'star', fill: 'filled', background: 'dark' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'hexagon', fill: 'outline', background: 'dark' },
+      { shape: 'star', fill: 'filled', background: 'dark' },
+    ],
+    options: [
+      { shape: 'hexagon', fill: 'outline', background: 'dark' },
+      { shape: 'hexagon', fill: 'filled', background: 'dark' },
+      { shape: 'star', fill: 'filled', background: 'dark' },
+      { shape: 'hexagon', fill: 'outline' },
+      { shape: 'circle', fill: 'outline', background: 'dark' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes cycle: hexagon, star, circle. Hexagon and star appear on dark backgrounds. Circle is on light. Each shape has a fixed fill: hexagon = outline, star = filled, circle = outline.',
+  },
+
+  /* ================================================================
+     Q44 – Circle/x-mark/star with corner-lines, fill every 4th (D3)
+     Shapes cycle: circle, x-mark, star. X-mark and star have
+     corner-lines background. Every 4th position is filled.
+     ================================================================ */
+  {
+    id: 'q44',
+    difficulty: 3,
+    sequence: [
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'x-mark', fill: 'outline', background: 'corner-lines' },
+      { shape: 'star', fill: 'outline', background: 'corner-lines' },
+      { shape: 'circle', fill: 'filled' },
+      { shape: 'x-mark', fill: 'outline', background: 'corner-lines' },
+      { shape: 'star', fill: 'outline', background: 'corner-lines' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'x-mark', fill: 'filled', background: 'corner-lines' },
+      { missing: true },
+    ],
+    options: [
+      { shape: 'star', fill: 'outline', background: 'corner-lines' },
+      { shape: 'star', fill: 'filled', background: 'corner-lines' },
+      { shape: 'x-mark', fill: 'outline', background: 'corner-lines' },
+      { shape: 'star', fill: 'outline' },
+      { shape: 'circle', fill: 'outline', background: 'corner-lines' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes cycle: circle, x-mark, star. X-mark and star always have corner-lines. Every 4th position is filled (positions 4, 8, 12…). Position 9 is star-outline with corner-lines.',
+  },
+
+  /* ================================================================
+     Q45 – 3-shape cycle with dots decreasing 4 → 2 → 0        (D3)
+     Shapes cycle: triangle(filled), circle(outline), square(outline).
+     Group 1: 4 corner dots. Group 2: 2 dots (top).
+     Group 3: no dots.
+     ================================================================ */
+  {
+    id: 'q45',
+    difficulty: 3,
+    sequence: [
+      { shape: 'triangle', fill: 'filled', dots: ['tl', 'tr', 'bl', 'br'] },
+      { shape: 'circle', fill: 'outline', dots: ['tl', 'tr', 'bl', 'br'] },
+      { shape: 'square', fill: 'outline', dots: ['tl', 'tr', 'bl', 'br'] },
+      { shape: 'triangle', fill: 'filled', dots: ['tl', 'tr'] },
+      { shape: 'circle', fill: 'outline', dots: ['tl', 'tr'] },
+      { shape: 'square', fill: 'outline', dots: ['tl', 'tr'] },
+      { shape: 'triangle', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+      { missing: true },
+    ],
+    options: [
+      { shape: 'square', fill: 'outline' },
+      { shape: 'square', fill: 'outline', dots: ['tl', 'tr'] },
+      { shape: 'square', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'square', fill: 'outline', dots: ['tl', 'tr', 'bl', 'br'] },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes cycle: triangle, circle, square. Dots decrease per group: 4 corners → 2 top dots → none. Position 9 completes the third group: square-outline with no dots.',
+  },
 ];
 
 export default questions;
