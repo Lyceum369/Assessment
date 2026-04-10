@@ -827,21 +827,22 @@ body {
   }
 }
 
+/* ===== MOBILE-FIRST: phones & TikTok-style layout ===== */
 @media (max-width: 600px) {
   /* Intro */
   .intro {
-    padding: 32px 20px;
+    padding: 32px 16px;
   }
 
   .intro__logo {
-    width: 150px;
-    height: 150px;
-    margin-bottom: 32px;
+    width: 140px;
+    height: 140px;
+    margin-bottom: 28px;
   }
 
   .intro__title {
-    font-size: 28px;
-    letter-spacing: 10px;
+    font-size: 26px;
+    letter-spacing: 8px;
   }
 
   .intro__subtitle {
@@ -850,13 +851,16 @@ body {
   }
 
   .intro__enter {
-    margin-top: 36px;
-    padding: 12px 48px;
-    font-size: 13px;
+    margin-top: 32px;
+    padding: 14px 48px;
+    font-size: 14px;
     letter-spacing: 3px;
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
   }
 
-  /* Header */
+  /* Header – compact */
   .app__header {
     padding: 8px 12px;
     gap: 8px;
@@ -873,13 +877,13 @@ body {
     white-space: nowrap;
   }
 
-  /* Test player layout */
+  /* Test player – full bleed, no wasted space */
   .test-player {
-    padding: 12px 12px;
+    padding: 10px 8px;
   }
 
   .test-player__header {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     gap: 8px;
   }
 
@@ -894,69 +898,82 @@ body {
     gap: 10px;
   }
 
+  .test-player__question-counter {
+    font-size: 16px;
+  }
+
   .test-player__header-right {
     flex: 1;
     justify-content: space-between;
   }
 
-  /* Card */
+  /* Card – edge-to-edge */
   .test-player__card {
-    padding: 16px 12px;
+    padding: 14px 10px;
     border-radius: 12px;
   }
 
+  /* Sequence wrapper – generous padding for big cards */
   .test-player__sequence-wrapper {
-    padding: 10px 6px;
-    margin-bottom: 12px;
-    border-radius: 8px;
+    padding: 12px 8px;
+    margin-bottom: 16px;
+    border-radius: 10px;
     overflow-x: visible;
   }
 
   .test-player__sequence {
-    gap: 4px;
+    gap: 6px;
     justify-content: center;
     flex-wrap: wrap;
   }
 
   .test-player__grid {
-    gap: 4px;
+    gap: 6px;
   }
 
+  /* ★ BIG sequence cards – visible at a glance */
   .shape-card--normal {
-    width: 36px;
-    height: 36px;
+    width: 60px;
+    height: 60px;
   }
 
   .shape-card--normal svg {
-    width: 36px;
-    height: 36px;
+    width: 60px;
+    height: 60px;
   }
 
-  /* Options grid */
+  /* ★ BIG option cards – easy to tap */
   .test-player__options {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    gap: 10px;
     justify-items: center;
-    padding: 4px 0;
+    padding: 8px 0;
   }
 
   .shape-card--option {
-    width: 64px;
-    height: 64px;
-    padding: 4px;
+    width: 90px;
+    height: 90px;
+    padding: 6px;
+    border-radius: 10px;
   }
 
-  /* Nav */
+  /* Full-width button */
   .test-player__nav {
-    margin-top: 12px;
-    padding-bottom: 8px;
+    margin-top: 16px;
+    padding-bottom: 12px;
+  }
+
+  .test-player__nav .btn {
+    width: 100%;
+    max-width: 400px;
   }
 
   .btn {
-    padding: 12px 24px;
+    padding: 14px 24px;
     min-width: 100px;
-    font-size: 15px;
+    font-size: 16px;
+    border-radius: 10px;
   }
 
   /* Timer */
@@ -976,15 +993,15 @@ body {
     width: 12px;
   }
 
-  /* Inline feedback */
+  /* Inline feedback – readable */
   .test-player__inline-feedback {
-    padding: 12px 14px;
+    padding: 14px 14px;
     gap: 10px;
     margin-top: 16px;
   }
 
   .test-player__inline-feedback-text strong {
-    font-size: 14px;
+    font-size: 15px;
   }
 
   .test-player__inline-feedback-text p {
@@ -993,11 +1010,11 @@ body {
 
   /* Feedback screen */
   .feedback {
-    padding: 20px 12px;
+    padding: 16px 8px;
   }
 
   .feedback__card {
-    padding: 20px 16px;
+    padding: 20px 14px;
     border-radius: 12px;
   }
 
@@ -1009,9 +1026,18 @@ body {
     padding: 10px 12px;
   }
 
+  .feedback__actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .feedback__actions .btn {
+    width: 100%;
+  }
+
   /* Info / Instruction screens */
   .screen-center {
-    padding: 24px 12px;
+    padding: 20px 10px;
   }
 
   .info-card {
@@ -1021,30 +1047,40 @@ body {
   .info-card__title {
     font-size: 18px;
   }
+
+  .info-card__actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .info-card__actions .btn {
+    width: 100%;
+    text-align: center;
+  }
 }
 
-/* Extra small phones */
+/* Narrow phones (≤ 380px) – still keep cards visible */
 @media (max-width: 380px) {
   .shape-card--normal {
-    width: 32px;
-    height: 32px;
+    width: 52px;
+    height: 52px;
   }
 
   .shape-card--normal svg {
-    width: 32px;
-    height: 32px;
+    width: 52px;
+    height: 52px;
   }
 
   .shape-card--option {
-    width: 56px;
-    height: 56px;
+    width: 78px;
+    height: 78px;
   }
 
   .test-player__sequence {
-    gap: 3px;
+    gap: 5px;
   }
 
   .test-player__options {
-    gap: 6px;
+    gap: 8px;
   }
 }
