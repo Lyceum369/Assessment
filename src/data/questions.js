@@ -918,6 +918,157 @@ const questions = [
     feedback:
       'Four patterns interleave: shapes alternate hexagon/circle, half-fill rotates 90° each step, size alternates small/large, all on dark backgrounds.',
   },
+
+  /* ================================================================
+     Q31 – Short 3-shape cycle + fill alternation               (D1)
+     Hexagon, circle, cross cycle. Fill alternates filled/outline.
+     Shorter 7-card sequence.
+     ================================================================ */
+  {
+    id: 'q31',
+    difficulty: 1,
+    sequence: [
+      { shape: 'hexagon', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'cross', fill: 'filled' },
+      { shape: 'hexagon', fill: 'outline' },
+      { shape: 'circle', fill: 'filled' },
+      { shape: 'cross', fill: 'outline' },
+      { missing: true },
+    ],
+    options: [
+      { shape: 'hexagon', fill: 'filled' },
+      { shape: 'hexagon', fill: 'outline' },
+      { shape: 'circle', fill: 'filled' },
+      { shape: 'cross', fill: 'filled' },
+      { shape: 'cross', fill: 'outline' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes cycle: hexagon, circle, cross. Fill alternates: filled, outline. Position 7 restarts both cycles: hexagon filled.',
+  },
+
+  /* ================================================================
+     Q32 – 4-shape cycle with per-shape fill rules              (D2)
+     Shapes cycle: triangle, cross, hexagon, star.
+     Triangle alternates F/O. Cross always outline.
+     Hexagon always filled. Star alternates F/O.
+     ================================================================ */
+  {
+    id: 'q32',
+    difficulty: 2,
+    sequence: [
+      { shape: 'triangle', fill: 'filled' },
+      { shape: 'cross', fill: 'outline' },
+      { shape: 'hexagon', fill: 'filled' },
+      { shape: 'star', fill: 'filled' },
+      { shape: 'triangle', fill: 'outline' },
+      { shape: 'cross', fill: 'outline' },
+      { shape: 'hexagon', fill: 'filled' },
+      { missing: true },
+      { shape: 'triangle', fill: 'filled' },
+    ],
+    options: [
+      { shape: 'star', fill: 'outline' },
+      { shape: 'star', fill: 'filled' },
+      { shape: 'cross', fill: 'outline' },
+      { shape: 'hexagon', fill: 'outline' },
+      { shape: 'triangle', fill: 'outline' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes cycle: triangle, cross, hexagon, star. Each shape has its own fill rule. Triangle and star alternate filled/outline across appearances. Cross is always outline. Hexagon is always filled.',
+  },
+
+  /* ================================================================
+     Q33 – Pacman rotation with progressive darkening           (D3)
+     Pacman rotates 90° CW each step. Background progressively
+     darkens: none → dark-corner-br → dark-corners → dark, repeating.
+     ================================================================ */
+  {
+    id: 'q33',
+    difficulty: 3,
+    sequence: [
+      { shape: 'pacman', fill: 'filled', rotation: 0 },
+      { shape: 'pacman', fill: 'filled', rotation: 90, background: 'dark-corner-br' },
+      { shape: 'pacman', fill: 'filled', rotation: 180, background: 'dark-corners' },
+      { shape: 'pacman', fill: 'filled', rotation: 270, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 0 },
+      { shape: 'pacman', fill: 'filled', rotation: 90, background: 'dark-corner-br' },
+      { missing: true },
+      { shape: 'pacman', fill: 'filled', rotation: 270, background: 'dark' },
+    ],
+    options: [
+      { shape: 'pacman', fill: 'filled', rotation: 180, background: 'dark-corners' },
+      { shape: 'pacman', fill: 'filled', rotation: 180, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 90, background: 'dark-corners' },
+      { shape: 'pacman', fill: 'outline', rotation: 180, background: 'dark-corners' },
+      { shape: 'pacman', fill: 'filled', rotation: 270, background: 'dark-corners' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Pacman rotates 90° clockwise each step. Background progressively darkens in a 4-step cycle: none → dark corner → dark corners → fully dark.',
+  },
+
+  /* ================================================================
+     Q34 – Tri/circle/square on dark with fill alternation      (D2)
+     Shapes cycle: triangle, circle, square. All on dark.
+     Fill alternates filled/outline each step.
+     ================================================================ */
+  {
+    id: 'q34',
+    difficulty: 2,
+    sequence: [
+      { shape: 'triangle', fill: 'filled', background: 'dark' },
+      { shape: 'circle', fill: 'outline', background: 'dark' },
+      { shape: 'square', fill: 'filled', background: 'dark' },
+      { shape: 'triangle', fill: 'outline', background: 'dark' },
+      { shape: 'circle', fill: 'filled', background: 'dark' },
+      { shape: 'square', fill: 'outline', background: 'dark' },
+      { shape: 'triangle', fill: 'filled', background: 'dark' },
+      { missing: true },
+    ],
+    options: [
+      { shape: 'circle', fill: 'outline', background: 'dark' },
+      { shape: 'circle', fill: 'filled', background: 'dark' },
+      { shape: 'square', fill: 'outline', background: 'dark' },
+      { shape: 'triangle', fill: 'outline', background: 'dark' },
+      { shape: 'circle', fill: 'outline' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes cycle: triangle, circle, square. Fill alternates: filled, outline. All on dark backgrounds. Position 8 is circle-outline-dark.',
+  },
+
+  /* ================================================================
+     Q35 – Pacman/triangle alternation, triangles on dark       (D3)
+     Pacman on light background, triangle on dark. Both rotate
+     90° CW per appearance.
+     ================================================================ */
+  {
+    id: 'q35',
+    difficulty: 3,
+    sequence: [
+      { shape: 'pacman', fill: 'filled', rotation: 0 },
+      { shape: 'triangle', fill: 'filled', rotation: 0, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 90 },
+      { shape: 'triangle', fill: 'filled', rotation: 90, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 180 },
+      { shape: 'triangle', fill: 'filled', rotation: 180, background: 'dark' },
+      { missing: true },
+      { shape: 'triangle', fill: 'filled', rotation: 270, background: 'dark' },
+    ],
+    options: [
+      { shape: 'pacman', fill: 'filled', rotation: 270 },
+      { shape: 'pacman', fill: 'filled', rotation: 180 },
+      { shape: 'pacman', fill: 'outline', rotation: 270 },
+      { shape: 'triangle', fill: 'filled', rotation: 270 },
+      { shape: 'pacman', fill: 'filled', rotation: 0 },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes alternate: pacman (light background), triangle (dark background). Both rotate 90° clockwise per appearance. The missing pacman is at 270°.',
+  },
 ];
 
 export default questions;
