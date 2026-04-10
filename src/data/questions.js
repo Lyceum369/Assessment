@@ -1673,6 +1673,157 @@ const questions = [
     feedback:
       'Pacman on dark backgrounds rotates 45° CW each step. Fill alternates filled/outline. Working backwards, position 1 is pacman-filled at 0° on dark.',
   },
+
+  /* ================================================================
+     Q56 – Triangle rotation 90° CW + moving dot                   (D3)
+     Triangle outline rotates 90° CW each step. A single dot moves
+     clockwise: TL → TR → BR → BL. Both 4-step cycles restart.
+     ================================================================ */
+  {
+    id: 'q56',
+    difficulty: 3,
+    sequence: [
+      { shape: 'triangle', fill: 'outline', rotation: 0, dots: ['tl'] },
+      { shape: 'triangle', fill: 'outline', rotation: 90, dots: ['tr'] },
+      { shape: 'triangle', fill: 'outline', rotation: 180, dots: ['br'] },
+      { shape: 'triangle', fill: 'outline', rotation: 270, dots: ['bl'] },
+      { missing: true },
+      { shape: 'triangle', fill: 'outline', rotation: 90, dots: ['tr'] },
+      { shape: 'triangle', fill: 'outline', rotation: 180, dots: ['br'] },
+      { shape: 'triangle', fill: 'outline', rotation: 270, dots: ['bl'] },
+    ],
+    options: [
+      { shape: 'triangle', fill: 'outline', rotation: 0, dots: ['tl'] },
+      { shape: 'triangle', fill: 'outline', rotation: 0, dots: ['tr'] },
+      { shape: 'triangle', fill: 'outline', rotation: 90, dots: ['tl'] },
+      { shape: 'triangle', fill: 'filled', rotation: 0, dots: ['tl'] },
+      { shape: 'arrow', fill: 'outline', rotation: 0, dots: ['tl'] },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Triangle rotates 90° CW each step. A single dot moves clockwise: TL → TR → BR → BL. Both patterns have a 4-step cycle. Position 5 restarts: triangle at 0° with dot TL.',
+  },
+
+  /* ================================================================
+     Q57 – Arrow/triangle on corner-lines, rotation 90° CW         (D3)
+     Shapes alternate: arrow (filled), triangle (outline). Both on
+     corner-lines background. Rotation increases 90° each step.
+     ================================================================ */
+  {
+    id: 'q57',
+    difficulty: 3,
+    sequence: [
+      { shape: 'arrow', fill: 'filled', rotation: 0, background: 'corner-lines' },
+      { shape: 'triangle', fill: 'outline', rotation: 90, background: 'corner-lines' },
+      { shape: 'arrow', fill: 'filled', rotation: 180, background: 'corner-lines' },
+      { shape: 'triangle', fill: 'outline', rotation: 270, background: 'corner-lines' },
+      { shape: 'arrow', fill: 'filled', rotation: 0, background: 'corner-lines' },
+      { shape: 'triangle', fill: 'outline', rotation: 90, background: 'corner-lines' },
+      { missing: true },
+      { shape: 'triangle', fill: 'outline', rotation: 270, background: 'corner-lines' },
+    ],
+    options: [
+      { shape: 'arrow', fill: 'filled', rotation: 180, background: 'corner-lines' },
+      { shape: 'arrow', fill: 'outline', rotation: 180, background: 'corner-lines' },
+      { shape: 'triangle', fill: 'filled', rotation: 180, background: 'corner-lines' },
+      { shape: 'arrow', fill: 'filled', rotation: 270, background: 'corner-lines' },
+      { shape: 'arrow', fill: 'filled', rotation: 180 },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes alternate: arrow (filled), triangle (outline), both on corner-lines backgrounds. Rotation increases 90° each step. Position 7 is arrow-filled at 180° with corner-lines.',
+  },
+
+  /* ================================================================
+     Q58 – Star/hexagon alternation + progressive bg darkening      (D2)
+     Star and hexagon alternate, both filled. Background darkens in
+     pairs: none → dark-corner-br → dark-corners → dark.
+     ================================================================ */
+  {
+    id: 'q58',
+    difficulty: 2,
+    sequence: [
+      { shape: 'star', fill: 'filled' },
+      { shape: 'hexagon', fill: 'filled' },
+      { shape: 'star', fill: 'filled', background: 'dark-corner-br' },
+      { missing: true },
+      { shape: 'star', fill: 'filled', background: 'dark-corners' },
+      { shape: 'hexagon', fill: 'filled', background: 'dark-corners' },
+      { shape: 'star', fill: 'filled', background: 'dark' },
+    ],
+    options: [
+      { shape: 'hexagon', fill: 'filled', background: 'dark-corner-br' },
+      { shape: 'hexagon', fill: 'outline', background: 'dark-corner-br' },
+      { shape: 'star', fill: 'filled', background: 'dark-corner-br' },
+      { shape: 'hexagon', fill: 'filled' },
+      { shape: 'hexagon', fill: 'filled', background: 'dark-corners' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Star and hexagon alternate, both filled. Background darkens in pairs: none → dark corner → dark corners → fully dark. Position 4 is hexagon-filled with dark-corner-br.',
+  },
+
+  /* ================================================================
+     Q59 – 4-shape cycle + fill alternation                        (D2)
+     Shapes cycle: square, hexagon, triangle, circle.
+     Fill alternates filled/outline each step.
+     ================================================================ */
+  {
+    id: 'q59',
+    difficulty: 2,
+    sequence: [
+      { shape: 'square', fill: 'filled' },
+      { shape: 'hexagon', fill: 'outline' },
+      { shape: 'triangle', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'square', fill: 'filled' },
+      { shape: 'hexagon', fill: 'outline' },
+      { missing: true },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'square', fill: 'filled' },
+    ],
+    options: [
+      { shape: 'triangle', fill: 'filled' },
+      { shape: 'triangle', fill: 'outline' },
+      { shape: 'hexagon', fill: 'filled' },
+      { shape: 'circle', fill: 'filled' },
+      { shape: 'triangle', fill: 'filled', background: 'dark' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes cycle: square, hexagon, triangle, circle. Fill alternates filled/outline each step. Position 7 is triangle-filled.',
+  },
+
+  /* ================================================================
+     Q60 – Star/square/circle simple cycle                         (D1)
+     Shapes cycle: star (filled), square (filled), circle (outline).
+     Straightforward repeating pattern.
+     ================================================================ */
+  {
+    id: 'q60',
+    difficulty: 1,
+    sequence: [
+      { shape: 'star', fill: 'filled' },
+      { shape: 'square', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+      { missing: true },
+      { shape: 'square', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'star', fill: 'filled' },
+      { shape: 'square', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+    ],
+    options: [
+      { shape: 'star', fill: 'filled' },
+      { shape: 'star', fill: 'outline' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'square', fill: 'filled' },
+      { shape: 'star', fill: 'filled', background: 'dark' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Simple 3-shape cycle: star (filled), square (filled), circle (outline). Position 4 restarts the cycle: star-filled.',
+  },
 ];
 
 export default questions;
