@@ -1373,6 +1373,158 @@ const questions = [
     feedback:
       'Shapes cycle: triangle, circle, square. Dots decrease per group: 4 corners → 2 top dots → none. Position 9 completes the third group: square-outline with no dots.',
   },
+
+  /* ================================================================
+     Q46 – Pacman/triangle/arrow cycle + rotation + dark bg        (D3)
+     Shapes cycle: pacman, triangle, arrow. Each shape rotates 90°
+     CW between appearances. Triangle always on dark background.
+     ================================================================ */
+  {
+    id: 'q46',
+    difficulty: 3,
+    sequence: [
+      { shape: 'pacman', fill: 'filled', rotation: 0 },
+      { shape: 'triangle', fill: 'filled', rotation: 0, background: 'dark' },
+      { shape: 'arrow', fill: 'filled', rotation: 0 },
+      { shape: 'pacman', fill: 'filled', rotation: 90 },
+      { shape: 'triangle', fill: 'filled', rotation: 90, background: 'dark' },
+      { shape: 'arrow', fill: 'filled', rotation: 90 },
+      { missing: true },
+      { shape: 'triangle', fill: 'filled', rotation: 180, background: 'dark' },
+    ],
+    options: [
+      { shape: 'pacman', fill: 'filled', rotation: 180 },
+      { shape: 'pacman', fill: 'filled', rotation: 270 },
+      { shape: 'arrow', fill: 'filled', rotation: 180 },
+      { shape: 'pacman', fill: 'outline', rotation: 180 },
+      { shape: 'pacman', fill: 'filled', rotation: 180, background: 'dark' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Three shapes cycle: pacman, triangle, arrow. Each rotates 90° CW per appearance. Only triangles have dark backgrounds. Position 7 is pacman at 180°.',
+  },
+
+  /* ================================================================
+     Q47 – 4-shape cycle on dark, fill inverts between cycles      (D4)
+     Shapes cycle: hexagon, circle, square, triangle. All on dark.
+     Cycle 1 fills: O, F, O, F. Cycle 2 fills: F, O, F, O (inverted).
+     Cycle 3 restarts as cycle 1.
+     ================================================================ */
+  {
+    id: 'q47',
+    difficulty: 4,
+    sequence: [
+      { shape: 'hexagon', fill: 'outline', background: 'dark' },
+      { shape: 'circle', fill: 'filled', background: 'dark' },
+      { shape: 'square', fill: 'outline', background: 'dark' },
+      { shape: 'triangle', fill: 'filled', background: 'dark' },
+      { shape: 'hexagon', fill: 'filled', background: 'dark' },
+      { shape: 'circle', fill: 'outline', background: 'dark' },
+      { shape: 'square', fill: 'filled', background: 'dark' },
+      { shape: 'triangle', fill: 'outline', background: 'dark' },
+      { shape: 'hexagon', fill: 'outline', background: 'dark' },
+      { missing: true },
+    ],
+    options: [
+      { shape: 'circle', fill: 'filled', background: 'dark' },
+      { shape: 'circle', fill: 'outline', background: 'dark' },
+      { shape: 'square', fill: 'filled', background: 'dark' },
+      { shape: 'circle', fill: 'filled' },
+      { shape: 'hexagon', fill: 'filled', background: 'dark' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes cycle: hexagon, circle, square, triangle on dark backgrounds. The fill pattern inverts between cycles: O,F,O,F → F,O,F,O → O,F,O,F. Position 10 restarts cycle 3: circle filled.',
+  },
+
+  /* ================================================================
+     Q48 – Arrow rotation on dark + fill alternation               (D2)
+     Arrows on dark backgrounds. Rotation cycles 0→90→180→270.
+     Fill alternates filled/outline each step.
+     ================================================================ */
+  {
+    id: 'q48',
+    difficulty: 2,
+    sequence: [
+      { shape: 'arrow', fill: 'filled', rotation: 0, background: 'dark' },
+      { shape: 'arrow', fill: 'outline', rotation: 90, background: 'dark' },
+      { shape: 'arrow', fill: 'filled', rotation: 180, background: 'dark' },
+      { shape: 'arrow', fill: 'outline', rotation: 270, background: 'dark' },
+      { shape: 'arrow', fill: 'filled', rotation: 0, background: 'dark' },
+      { missing: true },
+      { shape: 'arrow', fill: 'filled', rotation: 180, background: 'dark' },
+      { shape: 'arrow', fill: 'outline', rotation: 270, background: 'dark' },
+    ],
+    options: [
+      { shape: 'arrow', fill: 'outline', rotation: 90, background: 'dark' },
+      { shape: 'arrow', fill: 'filled', rotation: 90, background: 'dark' },
+      { shape: 'arrow', fill: 'outline', rotation: 180, background: 'dark' },
+      { shape: 'arrow', fill: 'outline', rotation: 90 },
+      { shape: 'triangle', fill: 'outline', rotation: 90, background: 'dark' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Arrows on dark backgrounds rotate 90° CW each step: 0→90→180→270. Fill alternates filled/outline. Position 6 is arrow-outline at 90° on dark.',
+  },
+
+  /* ================================================================
+     Q49 – Circle/star/cross cycle with fill rules                 (D2)
+     Shapes cycle: circle, star, cross. Circle always outline.
+     Star and cross always filled. Simple repeating pattern.
+     ================================================================ */
+  {
+    id: 'q49',
+    difficulty: 2,
+    sequence: [
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'star', fill: 'filled' },
+      { shape: 'cross', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+      { shape: 'star', fill: 'filled' },
+      { shape: 'cross', fill: 'filled' },
+      { shape: 'circle', fill: 'outline' },
+      { missing: true },
+      { shape: 'cross', fill: 'filled' },
+    ],
+    options: [
+      { shape: 'star', fill: 'filled' },
+      { shape: 'star', fill: 'outline' },
+      { shape: 'cross', fill: 'filled' },
+      { shape: 'circle', fill: 'filled' },
+      { shape: 'star', fill: 'filled', background: 'dark' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes cycle: circle, star, cross. Circle is always outline. Star and cross are always filled. Position 8 is star-filled.',
+  },
+
+  /* ================================================================
+     Q50 – Shape cycle + size grows per group                      (D1)
+     Shapes cycle: triangle(outline), circle(filled), square(filled).
+     Group 1: all small. Group 2: all large. Short 6-card sequence.
+     ================================================================ */
+  {
+    id: 'q50',
+    difficulty: 1,
+    sequence: [
+      { shape: 'triangle', fill: 'outline', size: 'small' },
+      { shape: 'circle', fill: 'filled', size: 'small' },
+      { missing: true },
+      { shape: 'triangle', fill: 'outline', size: 'large' },
+      { shape: 'circle', fill: 'filled', size: 'large' },
+      { shape: 'square', fill: 'filled', size: 'large' },
+    ],
+    options: [
+      { shape: 'square', fill: 'filled', size: 'small' },
+      { shape: 'square', fill: 'filled', size: 'large' },
+      { shape: 'square', fill: 'outline', size: 'small' },
+      { shape: 'circle', fill: 'filled', size: 'small' },
+      { shape: 'triangle', fill: 'outline', size: 'small' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes cycle: triangle (outline), circle (filled), square (filled). Size changes per group: group 1 is small, group 2 is large. Position 3 completes group 1: square-filled-small.',
+  },
 ];
 
 export default questions;
