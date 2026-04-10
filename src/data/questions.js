@@ -1525,6 +1525,154 @@ const questions = [
     feedback:
       'Shapes cycle: triangle (outline), circle (filled), square (filled). Size changes per group: group 1 is small, group 2 is large. Position 3 completes group 1: square-filled-small.',
   },
+
+  /* ================================================================
+     Q51 – Pacman rotation + fill + bg alternation                 (D3)
+     Pacman rotates 90° CW each step. Fill alternates filled/outline.
+     Background alternates none/dark. Missing at position 0.
+     ================================================================ */
+  {
+    id: 'q51',
+    difficulty: 3,
+    sequence: [
+      { missing: true },
+      { shape: 'pacman', fill: 'outline', rotation: 90, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 180 },
+      { shape: 'pacman', fill: 'outline', rotation: 270, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 0 },
+      { shape: 'pacman', fill: 'outline', rotation: 90, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 180 },
+    ],
+    options: [
+      { shape: 'pacman', fill: 'filled', rotation: 0 },
+      { shape: 'pacman', fill: 'outline', rotation: 0 },
+      { shape: 'pacman', fill: 'filled', rotation: 90 },
+      { shape: 'pacman', fill: 'filled', rotation: 0, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 270 },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Pacman rotates 90° CW each step. Fill alternates filled/outline. Background alternates none/dark. Working backwards, position 1 is pacman-filled at 0° with no dark background.',
+  },
+
+  /* ================================================================
+     Q52 – Square 0°/45° rotation + fill cycle on dark             (D3)
+     Squares alternate rotation 0° and 45° (diamond). Fill follows
+     a 3-step cycle: outline, outline, filled. All on dark.
+     ================================================================ */
+  {
+    id: 'q52',
+    difficulty: 3,
+    sequence: [
+      { shape: 'square', fill: 'outline', rotation: 0, background: 'dark' },
+      { shape: 'square', fill: 'outline', rotation: 45, background: 'dark' },
+      { shape: 'square', fill: 'filled', rotation: 0, background: 'dark' },
+      { shape: 'square', fill: 'outline', rotation: 45, background: 'dark' },
+      { shape: 'square', fill: 'outline', rotation: 0, background: 'dark' },
+      { shape: 'square', fill: 'filled', rotation: 45, background: 'dark' },
+      { missing: true },
+    ],
+    options: [
+      { shape: 'square', fill: 'outline', rotation: 0, background: 'dark' },
+      { shape: 'square', fill: 'filled', rotation: 0, background: 'dark' },
+      { shape: 'square', fill: 'outline', rotation: 45, background: 'dark' },
+      { shape: 'square', fill: 'outline', rotation: 0 },
+      { shape: 'circle', fill: 'outline', rotation: 0, background: 'dark' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Squares on dark backgrounds alternate rotation between 0° and 45° (diamond). Fill follows a 3-step cycle: outline, outline, filled. Position 7 restarts the cycle: square-outline at 0° on dark.',
+  },
+
+  /* ================================================================
+     Q53 – X-mark/cross alternation + moving dot                   (D3)
+     Shapes alternate: x-mark (filled), cross (outline). A single
+     dot moves clockwise: BR → BL → TL → TR. Missing at position 0.
+     ================================================================ */
+  {
+    id: 'q53',
+    difficulty: 3,
+    sequence: [
+      { missing: true },
+      { shape: 'cross', fill: 'outline', dots: ['bl'] },
+      { shape: 'x-mark', fill: 'filled', dots: ['tl'] },
+      { shape: 'cross', fill: 'outline', dots: ['tr'] },
+      { shape: 'x-mark', fill: 'filled', dots: ['br'] },
+      { shape: 'cross', fill: 'outline', dots: ['bl'] },
+      { shape: 'x-mark', fill: 'filled', dots: ['tl'] },
+      { shape: 'cross', fill: 'outline', dots: ['tr'] },
+    ],
+    options: [
+      { shape: 'x-mark', fill: 'filled', dots: ['br'] },
+      { shape: 'x-mark', fill: 'outline', dots: ['br'] },
+      { shape: 'cross', fill: 'filled', dots: ['br'] },
+      { shape: 'x-mark', fill: 'filled', dots: ['tl'] },
+      { shape: 'x-mark', fill: 'filled' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes alternate: x-mark (filled), cross (outline). A single dot moves clockwise each step: BR → BL → TL → TR. Working backwards, position 1 is x-mark-filled with dot at BR.',
+  },
+
+  /* ================================================================
+     Q54 – Star/cross alternation, cross fill alternates            (D2)
+     Star and cross alternate. Star is always outline.
+     Cross alternates filled/outline per appearance.
+     ================================================================ */
+  {
+    id: 'q54',
+    difficulty: 2,
+    sequence: [
+      { shape: 'star', fill: 'outline' },
+      { shape: 'cross', fill: 'filled' },
+      { shape: 'star', fill: 'outline' },
+      { shape: 'cross', fill: 'outline' },
+      { shape: 'star', fill: 'outline' },
+      { missing: true },
+      { shape: 'star', fill: 'outline' },
+      { shape: 'cross', fill: 'outline' },
+    ],
+    options: [
+      { shape: 'cross', fill: 'filled' },
+      { shape: 'cross', fill: 'outline' },
+      { shape: 'star', fill: 'filled' },
+      { shape: 'star', fill: 'outline' },
+      { shape: 'cross', fill: 'filled', background: 'dark' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Shapes alternate: star, cross. Star is always outline. Cross alternates filled/outline per appearance. Position 6 is cross-filled.',
+  },
+
+  /* ================================================================
+     Q55 – Pacman 45° rotation on dark + fill alternation           (D3)
+     Pacman on dark backgrounds. Rotation increases 45° each step.
+     Fill alternates filled/outline. Missing at position 0.
+     ================================================================ */
+  {
+    id: 'q55',
+    difficulty: 3,
+    sequence: [
+      { missing: true },
+      { shape: 'pacman', fill: 'outline', rotation: 45, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 90, background: 'dark' },
+      { shape: 'pacman', fill: 'outline', rotation: 135, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 180, background: 'dark' },
+      { shape: 'pacman', fill: 'outline', rotation: 225, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 270, background: 'dark' },
+      { shape: 'pacman', fill: 'outline', rotation: 315, background: 'dark' },
+    ],
+    options: [
+      { shape: 'pacman', fill: 'filled', rotation: 0, background: 'dark' },
+      { shape: 'pacman', fill: 'outline', rotation: 0, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 45, background: 'dark' },
+      { shape: 'pacman', fill: 'filled', rotation: 0 },
+      { shape: 'pacman', fill: 'filled', rotation: 315, background: 'dark' },
+    ],
+    correctIndex: 0,
+    feedback:
+      'Pacman on dark backgrounds rotates 45° CW each step. Fill alternates filled/outline. Working backwards, position 1 is pacman-filled at 0° on dark.',
+  },
 ];
 
 export default questions;

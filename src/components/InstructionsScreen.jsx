@@ -28,7 +28,7 @@ export default function InstructionsScreen({ onPrevious, onStart }) {
             correctly completes the series.
           </p>
           <p>
-            This assessment contains <strong>50 questions</strong>. There is no
+            This assessment contains <strong>55 questions</strong>. There is no
             time limit. Difficulty adapts based on your performance.
           </p>
           <p>
